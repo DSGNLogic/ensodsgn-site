@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MID Toolkit — Ministry of Intentional Design</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --brand-primary:  #FF4F23;
+      --brand-dark:     #062521;
+      --brand-navy:     #043E5C;
+      --brand-neutral:  #F2F2F2;
+      --brand-coral:    #E48174;
+      --brand-sage:     #C2E1BB;
+      --brand-blue:     #1186DE;
+      --bg:     #FFFFFF;
+      --ink:    #062521;
+      --muted:  rgba(6,37,33,0.50);
+      --faint:  rgba(6,37,33,0.07);
+      --border: rgba(6,37,33,0.10);
+      --red:    #FF4F23;
+      --shadow-lg: 0 8px 32px rgba(6,37,33,0.10), 0 4px 8px rgba(6,37,33,0.06);
+      --shadow-xl: 0 20px 60px rgba(6,37,33,0.12), 0 8px 20px rgba(6,37,33,0.07);
+
+      /* MID phase colors */
+      --mid-p: #4F46E5;
+      --mid-t: #0D9488;
+      --mid-g: #059669;
+      --mid-r: #BE185D;
+      --mid-a: #D97706;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* ── Cursor ── */
+    #cur {
+      position: fixed;
+      width: 8px; height: 8px;
+      background: var(--red);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%,-50%);
+      transition: width .2s, height .2s, background .2s;
+    }
+    body:has(a:hover) #cur,
+    body:has(button:hover) #cur {
+      width: 48px; height: 48px;
+      background: rgba(255,79,35,0.15);
+      border: 1px solid rgba(255,79,35,0.35);
+    }
+
+    /* ── Nav ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 24px 48px;
+      background: rgba(6,37,33,0.95);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .nav-name {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 16px;
+      letter-spacing: 0.01em;
+      color: rgba(255,255,255,0.9);
+      text-decoration: none;
+    }
+    .nav-links {
+      display: flex;
+      gap: 40px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+      text-decoration: none;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: rgba(255,255,255,0.9); }
+    .nav-links a.active { color: var(--red); }
+    .nav-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 18px;
+      border-radius: 100px;
+      background: rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.85);
+      border: 1px solid rgba(255,255,255,0.15);
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: none;
+      transition: background .2s, border-color .2s;
+    }
+    .nav-cta:hover { background: var(--red); border-color: var(--red); color: #fff; }
+    .avail-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: #3a9e55;
+      flex-shrink: 0;
+      animation: pulse-avail 2s infinite;
+    }
+    @keyframes pulse-avail {
+      0%,100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    /* ── Buttons ── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      border-radius: 100px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: all .2s ease;
+      cursor: none;
+      border: none;
+      font-family: 'Inter', sans-serif;
+    }
+    .btn-red { background: var(--red); color: #fff; }
+    .btn-red:hover { background: #e03d10; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(255,79,35,0.35); }
+    .btn-ink { background: var(--ink); color: var(--bg); }
+    .btn-ink:hover { background: var(--red); transform: translateY(-1px); }
+    .btn-ghost-white {
+      background: transparent;
+      color: rgba(255,255,255,0.7);
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    .btn-ghost-white:hover { border-color: rgba(255,255,255,0.5); color: #fff; }
+    .btn-ghost {
+      background: transparent;
+      color: var(--ink);
+      border: 1px solid var(--border);
+    }
+    .btn-ghost:hover { border-color: rgba(6,37,33,0.35); }
+
+    /* ── Main ── */
+    main { padding-top: 80px; }
+
+    /* ── Hero ── */
+    .hero {
+      background: var(--brand-dark);
+      color: #fff;
+      padding: 100px 56px 96px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: 'MID';
+      position: absolute;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 360px;
+      font-weight: 800;
+      color: rgba(255,255,255,0.025);
+      line-height: 1;
+      bottom: -60px;
+      right: -20px;
+      user-select: none;
+      pointer-events: none;
+      letter-spacing: -0.04em;
+    }
+    .hero-inner { position: relative; z-index: 1; max-width: 1100px; }
+    .hero-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      text-decoration: none;
+      margin-bottom: 40px;
+      transition: color .2s;
+    }
+    .hero-back:hover { color: rgba(255,255,255,0.75); }
+    .hero-eyebrow {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--brand-sage);
+      margin-bottom: 20px;
+    }
+    .hero-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: clamp(52px, 7vw, 96px);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      margin-bottom: 12px;
+    }
+    .hero-subtitle {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: clamp(18px, 2.5vw, 26px);
+      font-weight: 400;
+      color: rgba(255,255,255,0.45);
+      letter-spacing: -0.01em;
+      margin-bottom: 40px;
+    }
+    .hero-desc {
+      font-size: 16px;
+      color: rgba(255,255,255,0.55);
+      max-width: 560px;
+      line-height: 1.85;
+      margin-bottom: 48px;
+    }
+
+    /* Phase pills */
+    .phase-pills {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 48px;
+    }
+    .phase-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 18px;
+      border-radius: 100px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border: 1px solid;
+    }
+    .phase-pill-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .pill-p { color: rgba(79,70,229,0.9); border-color: rgba(79,70,229,0.3); background: rgba(79,70,229,0.08); }
+    .pill-t { color: rgba(13,148,136,0.9); border-color: rgba(13,148,136,0.3); background: rgba(13,148,136,0.08); }
+    .pill-g { color: rgba(5,150,105,0.9); border-color: rgba(5,150,105,0.3); background: rgba(5,150,105,0.08); }
+    .pill-r { color: rgba(190,24,93,0.9); border-color: rgba(190,24,93,0.3); background: rgba(190,24,93,0.08); }
+    .pill-a { color: rgba(217,119,6,0.9); border-color: rgba(217,119,6,0.3); background: rgba(217,119,6,0.08); }
+
+    .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; }
+
+    /* ── What is MID ── */
+    .about-mid {
+      padding: 88px 56px;
+      border-bottom: 1px solid var(--border);
+    }
+    .about-mid-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+    .section-eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+    .section-heading {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: clamp(32px, 3.5vw, 48px);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: 24px;
+    }
+    .body-text {
+      font-size: 15px;
+      color: var(--muted);
+      line-height: 1.9;
+    }
+    .body-text + .body-text { margin-top: 16px; }
+
+    .blend-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-top: 32px;
+    }
+    .blend-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 20px 24px;
+      background: var(--faint);
+      border-radius: 14px;
+      border-left: 3px solid transparent;
+    }
+    .blend-item:nth-child(1) { border-color: var(--mid-p); }
+    .blend-item:nth-child(2) { border-color: var(--mid-t); }
+    .blend-item:nth-child(3) { border-color: var(--mid-g); }
+    .blend-num {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--muted);
+      flex-shrink: 0;
+      padding-top: 2px;
+    }
+    .blend-text {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--ink);
+      line-height: 1.6;
+    }
+
+    /* ── Framework Phases ── */
+    .phases-section {
+      padding: 88px 56px;
+      background: var(--brand-dark);
+      color: #fff;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .phases-section .section-eyebrow { color: var(--brand-sage); margin-bottom: 12px; }
+    .phases-section .section-heading { color: #fff; }
+    .phases-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 1px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 20px;
+      overflow: hidden;
+      margin-top: 56px;
+    }
+    .phase-card {
+      background: rgba(6,37,33,0.8);
+      padding: 40px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: background .25s;
+    }
+    .phase-card:hover { background: rgba(255,255,255,0.04); }
+    .phase-num {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+    .phase-bar {
+      height: 3px;
+      border-radius: 2px;
+      width: 32px;
+    }
+    .phase-name {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+    }
+    .phase-tagline {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      opacity: 0.6;
+    }
+    .phase-desc {
+      font-size: 13px;
+      line-height: 1.75;
+      color: rgba(255,255,255,0.72);
+      margin-top: 4px;
+      flex: 1;
+    }
+    /* Phase color accents */
+    .ph-1 .phase-num { color: rgba(79,70,229,0.7); }
+    .ph-1 .phase-name { color: #a5b4fc; }
+    .ph-1 .phase-bar { background: #4F46E5; }
+    .ph-1 .phase-tagline { color: rgba(165,180,252,0.75); }
+    .ph-2 .phase-num { color: rgba(13,148,136,0.7); }
+    .ph-2 .phase-name { color: #5eead4; }
+    .ph-2 .phase-bar { background: #0D9488; }
+    .ph-2 .phase-tagline { color: rgba(94,234,212,0.75); }
+    .ph-3 .phase-num { color: rgba(5,150,105,0.7); }
+    .ph-3 .phase-name { color: #6ee7b7; }
+    .ph-3 .phase-bar { background: #059669; }
+    .ph-3 .phase-tagline { color: rgba(110,231,183,0.75); }
+    .ph-4 .phase-num { color: rgba(190,24,93,0.7); }
+    .ph-4 .phase-name { color: #f9a8d4; }
+    .ph-4 .phase-bar { background: #BE185D; }
+    .ph-4 .phase-tagline { color: rgba(249,168,212,0.75); }
+    .ph-5 .phase-num { color: rgba(217,119,6,0.7); }
+    .ph-5 .phase-name { color: #fcd34d; }
+    .ph-5 .phase-bar { background: #D97706; }
+    .ph-5 .phase-tagline { color: rgba(252,211,77,0.75); }
+
+    /* ── What's Included ── */
+    .contents-section {
+      padding: 88px 56px;
+      background: var(--brand-neutral);
+      border-bottom: 1px solid var(--border);
+    }
+    .contents-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 56px;
+    }
+    .doc-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+    }
+    .doc-card-header {
+      padding: 32px 36px 28px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .doc-card-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+    .doc-card-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+    }
+    .doc-card-title span { color: var(--red); }
+    .doc-page-count {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--ink);
+      letter-spacing: -0.03em;
+      white-space: nowrap;
+    }
+    .doc-page-count small {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      display: block;
+      line-height: 1;
+    }
+    .doc-card-body { padding: 28px 36px 36px; }
+    .doc-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--faint);
+    }
+    .doc-item:last-child { border-bottom: none; }
+    .doc-item-num {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: rgba(6,37,33,0.25);
+      min-width: 28px;
+      padding-top: 2px;
+    }
+    .doc-item-text {
+      font-size: 14px;
+      color: var(--ink);
+      font-weight: 500;
+      line-height: 1.45;
+    }
+    .doc-item-sub {
+      font-size: 12px;
+      color: var(--muted);
+      display: block;
+      margin-top: 2px;
+      font-weight: 400;
+    }
+    .doc-item-tag {
+      margin-left: auto;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 20px;
+      flex-shrink: 0;
+    }
+    .tag-p { color: #4F46E5; background: rgba(79,70,229,0.08); }
+    .tag-t { color: #0D9488; background: rgba(13,148,136,0.08); }
+    .tag-g { color: #059669; background: rgba(5,150,105,0.08); }
+    .tag-r { color: #BE185D; background: rgba(190,24,93,0.08); }
+    .tag-a { color: #D97706; background: rgba(217,119,6,0.08); }
+
+
+    /* ── Services ── */
+    .services-section {
+      padding: 88px 56px;
+      border-bottom: 1px solid var(--border);
+    }
+    .services-intro {
+      font-size: 16px;
+      color: var(--muted);
+      max-width: 560px;
+      line-height: 1.8;
+      margin-top: 16px;
+      margin-bottom: 56px;
+    }
+    .services-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    .svc-card {
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 36px 36px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      transition: border-color .25s, box-shadow .25s, transform .25s;
+    }
+    .svc-card:hover {
+      border-color: rgba(6,37,33,0.18);
+      box-shadow: var(--shadow-xl);
+      transform: translateY(-3px);
+    }
+    .svc-card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .svc-tier {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      background: var(--faint);
+      border-radius: 20px;
+      padding: 4px 12px;
+    }
+    .svc-format {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--red);
+    }
+    .svc-name {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+    }
+    .svc-tagline {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--ink);
+      line-height: 1.5;
+      margin-top: -4px;
+    }
+    .svc-desc {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.8;
+      flex: 1;
+    }
+    .svc-includes {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      padding: 16px 0;
+      border-top: 1px solid var(--faint);
+      border-bottom: 1px solid var(--faint);
+    }
+    .svc-include-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      color: var(--ink);
+    }
+    .svc-include-item::before {
+      content: '';
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--red);
+      flex-shrink: 0;
+    }
+    .svc-price {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+    }
+    .svc-price-value {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+    }
+    .svc-price-note {
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+    }
+    .svc-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink);
+      text-decoration: none;
+      transition: color .2s;
+      margin-top: 4px;
+      align-self: flex-start;
+    }
+    .svc-cta:hover { color: var(--red); }
+
+    /* ── CTA ── */
+    .cta-section {
+      background: var(--brand-dark);
+      color: #fff;
+      padding: 100px 56px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle at 50% 50%, rgba(79,70,229,0.12) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .cta-inner { position: relative; z-index: 1; }
+    .cta-eyebrow {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--brand-sage);
+      margin-bottom: 20px;
+    }
+    .cta-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: clamp(40px, 5vw, 72px);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1.05;
+      margin-bottom: 20px;
+    }
+    .cta-title em {
+      font-style: normal;
+      color: var(--red);
+    }
+    .cta-desc {
+      font-size: 16px;
+      color: rgba(255,255,255,0.5);
+      max-width: 480px;
+      margin: 0 auto 48px;
+      line-height: 1.8;
+    }
+    .cta-actions {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .cta-includes {
+      margin-top: 48px;
+      display: flex;
+      gap: 32px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .cta-include-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      color: rgba(255,255,255,0.45);
+    }
+    .cta-include-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--brand-sage);
+      flex-shrink: 0;
+    }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 24px 56px;
+    }
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .footer-copy { font-size: 12px; color: var(--muted); letter-spacing: 0.04em; }
+    .footer-back {
+      font-size: 12px;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color .2s;
+    }
+    .footer-back:hover { color: var(--ink); }
+
+    /* ── Reveal ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity .8s ease, transform .8s cubic-bezier(.16,1,.3,1);
+    }
+    .reveal.in { opacity: 1; transform: none; }
+    .d1 { transition-delay: .1s; }
+    .d2 { transition-delay: .2s; }
+    .d3 { transition-delay: .3s; }
+    .d4 { transition-delay: .4s; }
+
+    /* ── Responsive ── */
+    @media (max-width: 1200px) {
+      .phases-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 1024px) {
+      nav { padding: 20px 24px; }
+      .nav-links { display: none; }
+      .hero { padding: 72px 24px 64px; }
+      .about-mid { padding: 64px 24px; }
+      .about-mid-inner { grid-template-columns: 1fr; gap: 48px; }
+      .phases-section { padding: 64px 24px; }
+      .phases-grid { grid-template-columns: 1fr 1fr; }
+      .contents-section { padding: 64px 24px; }
+      .contents-grid { grid-template-columns: 1fr; }
+      .services-section { padding: 64px 24px; }
+      .services-grid { grid-template-columns: 1fr; }
+      .cta-section { padding: 72px 24px; }
+      footer { padding: 20px 24px; }
+    }
+    @media (max-width: 640px) {
+      .phases-grid { grid-template-columns: 1fr; }
+      .phase-pills { gap: 6px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="cur"></div>
+
+  <!-- ── Nav ── -->
+  <nav>
+    <a href="index.html" class="nav-name">Michael Edward</a>
+    <ul class="nav-links">
+      <li><a href="index.html#book">Book</a></li>
+      <li><a href="index.html#work">Work</a></li>
+      <li><a href="index.html#philosophy">Philosophy</a></li>
+      <li><a href="index.html#services">Services</a></li>
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="store.html" class="active">Store</a></li>
+    </ul>
+    <a href="index.html" class="nav-cta">
+      <span class="avail-dot"></span>
+      Let's talk →
+    </a>
+  </nav>
+
+  <main>
+
+    <!-- ── Hero ── -->
+    <section class="hero">
+      <div class="hero-inner">
+        <a href="store.html" class="hero-back">← Back to Store</a>
+        <div class="hero-eyebrow">Toolkit</div>
+        <h1 class="hero-title">MID Toolkit</h1>
+        <p class="hero-subtitle">Ministry of Intentional Design</p>
+        <p class="hero-desc">A complete design thinking toolkit for church leaders and ministry teams — guiding communities through a 5-phase framework built on empathy, the Feel First philosophy, and transformational care.</p>
+        <div class="phase-pills">
+          <div class="phase-pill pill-p"><span class="phase-pill-dot" style="background:#4F46E5;"></span>Empathize</div>
+          <div class="phase-pill pill-t"><span class="phase-pill-dot" style="background:#0D9488;"></span>Understand</div>
+          <div class="phase-pill pill-g"><span class="phase-pill-dot" style="background:#059669;"></span>Design</div>
+          <div class="phase-pill pill-r"><span class="phase-pill-dot" style="background:#BE185D;"></span>Heal</div>
+          <div class="phase-pill pill-a"><span class="phase-pill-dot" style="background:#D97706;"></span>Transformation</div>
+        </div>
+        <div class="hero-actions">
+          <a href="#purchase" class="btn btn-red">Purchase Toolkit →</a>
+          <a href="#whats-included" class="btn btn-ghost-white">See What's Included ↓</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── What is MID ── -->
+    <section class="about-mid">
+      <div class="about-mid-inner">
+        <div>
+          <div class="section-eyebrow reveal">About</div>
+          <h2 class="section-heading reveal d1">What is the<br/>MID Toolkit?</h2>
+          <p class="body-text reveal d2">The <strong>Ministry of Intentional Design (MID)</strong> was created to help churches rethink ministry through the lens of empathy, emotional awareness, and transformational care. The Gospel does not change — but the way we design ministry experiences must respond to the full complexity of human experience.</p>
+          <p class="body-text reveal d2">This toolkit gives your team a complete framework and practical working tools to design ministry that helps people feel seen, supported, healed, and transformed.</p>
+        </div>
+        <div>
+          <div class="blend-list reveal d1">
+            <div class="blend-item">
+              <div class="blend-num">01</div>
+              <div class="blend-text">The empathy-centered philosophy of <strong>Feel First</strong> — slowing down to understand before creating solutions.</div>
+            </div>
+            <div class="blend-item">
+              <div class="blend-num">02</div>
+              <div class="blend-text">Principles of <strong>human-centered design</strong> — research, listening, and co-creation with the people you serve.</div>
+            </div>
+            <div class="blend-item">
+              <div class="blend-num">03</div>
+              <div class="blend-text">The structure of <strong>design thinking</strong> — reimagined through the lens of ministry and spiritual care.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Framework Phases ── -->
+    <section class="phases-section">
+      <div class="section-eyebrow reveal">The Framework</div>
+      <h2 class="section-heading reveal d1">5 Phases of Intentional Ministry Design</h2>
+      <div class="phases-grid reveal d2">
+
+        <div class="phase-card ph-1">
+          <div class="phase-num">Phase 01</div>
+          <div class="phase-bar"></div>
+          <div class="phase-name">Empathize</div>
+          <div class="phase-tagline">Listen to Learn</div>
+          <p class="phase-desc">Slow down to notice people deeply. Recognize grief, exhaustion, shame, and isolation before reaching for solutions. Listening sessions, community interviews, and emotional experience audits.</p>
+        </div>
+
+        <div class="phase-card ph-2">
+          <div class="phase-num">Phase 02</div>
+          <div class="phase-bar"></div>
+          <div class="phase-name">Understand</div>
+          <div class="phase-tagline">Applied Humility</div>
+          <p class="phase-desc">Move empathy into clarity. Identify root tensions and deeper ministry challenges beneath surface-level symptoms like low attendance or volunteer burnout.</p>
+        </div>
+
+        <div class="phase-card ph-3">
+          <div class="phase-num">Phase 03</div>
+          <div class="phase-bar"></div>
+          <div class="phase-name">Design</div>
+          <div class="phase-tagline">Intentional Creation</div>
+          <p class="phase-desc">Brainstorm, ideate, and prototype intentional ministry solutions. Create systems, environments, and experiences with purpose and care.</p>
+        </div>
+
+        <div class="phase-card ph-4">
+          <div class="phase-num">Phase 04</div>
+          <div class="phase-bar"></div>
+          <div class="phase-name">Heal</div>
+          <div class="phase-tagline">Impact Through Application</div>
+          <p class="phase-desc">Implement ministry care through support, connection, restoration, and relational healing. Move from design into real community transformation.</p>
+        </div>
+
+        <div class="phase-card ph-5">
+          <div class="phase-num">Phase 05</div>
+          <div class="phase-bar"></div>
+          <div class="phase-name">Transformation</div>
+          <div class="phase-tagline">Ministry Outcome</div>
+          <p class="phase-desc">Spiritual growth, relational connection, emotional healing, discipleship, belonging, and sustainable long-term impact across your entire ministry ecosystem.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── What's Included ── -->
+    <section class="contents-section" id="whats-included">
+      <div class="section-eyebrow reveal">Contents</div>
+      <h2 class="section-heading reveal d1">What's Inside the Toolkit</h2>
+
+      <div class="contents-grid">
+
+        <!-- Document 1 -->
+        <div class="doc-card reveal">
+          <div class="doc-card-header">
+            <div>
+              <div class="doc-card-title">MID Framework<br/><span>Guide</span></div>
+            </div>
+            <div class="doc-page-count">
+              16
+              <small>Pages</small>
+            </div>
+          </div>
+          <div class="doc-card-body">
+            <div class="doc-item">
+              <div class="doc-item-text">Why MID Exists
+                <span class="doc-item-sub">Introduction to the Ministry of Intentional Design</span>
+              </div>
+            </div>
+            <div class="doc-item">
+              <div class="doc-item-text">The Feel First Philosophy
+                <span class="doc-item-sub">Empathy as leadership — the emotional foundation</span>
+              </div>
+            </div>
+            <div class="doc-item">
+              <div class="doc-item-text">Design Thinking Through Ministry
+                <span class="doc-item-sub">How human-centered design maps to spiritual care</span>
+              </div>
+            </div>
+            <div class="doc-item">
+              <div class="doc-item-text">Framework Overview
+                <span class="doc-item-sub">The full 5-phase diagram and how phases connect</span>
+              </div>
+            </div>
+            <div class="doc-item">
+              <div class="doc-item-text">Each Phase In Depth
+                <span class="doc-item-sub">Empathize, Understand, Design, Heal, Transformation</span>
+              </div>
+            </div>
+            <div class="doc-item">
+              <div class="doc-item-text">Applied Ministry Design
+                <span class="doc-item-sub">Designing experiences, belonging, and technology with empathy</span>
+              </div>
+            </div>
+            <div class="doc-item">
+              <div class="doc-item-text">Scripture Foundation
+                <span class="doc-item-sub">Biblical basis for the MID ministry model</span>
+              </div>
+            </div>
+            <div class="doc-item">
+              <div class="doc-item-text">The MID Manifesto
+                <span class="doc-item-sub">The guiding principles and commitments of intentional ministry</span>
+              </div>
+            </div>
+            <div class="doc-item">
+              <div class="doc-item-text">About the Author
+                <span class="doc-item-sub">Minister Michael Edward — background and approach</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Document 2 -->
+        <div class="doc-card reveal d1">
+          <div class="doc-card-header">
+            <div>
+              <div class="doc-card-title">MID Tools —<br/><span>Worksheets &amp; Assessments</span></div>
+            </div>
+            <div class="doc-page-count">
+              12
+              <small>Pages</small>
+            </div>
+          </div>
+          <div class="doc-card-body">
+            <div class="doc-item">
+              <div class="doc-item-num">WS.01</div>
+              <div class="doc-item-text">Empathize Worksheet
+                <span class="doc-item-sub">Listen to Learn — community listening &amp; observation prompts</span>
+              </div>
+              <span class="doc-item-tag tag-p">Phase 1</span>
+            </div>
+            <div class="doc-item">
+              <div class="doc-item-num">WS.02</div>
+              <div class="doc-item-text">Understand Worksheet
+                <span class="doc-item-sub">Applied Humility — root tension mapping</span>
+              </div>
+              <span class="doc-item-tag tag-t">Phase 2</span>
+            </div>
+            <div class="doc-item">
+              <div class="doc-item-num">WS.03</div>
+              <div class="doc-item-text">Design Worksheet
+                <span class="doc-item-sub">Intentional Creation — ideation &amp; solution planning</span>
+              </div>
+              <span class="doc-item-tag tag-g">Phase 3</span>
+            </div>
+            <div class="doc-item">
+              <div class="doc-item-num">WS.04</div>
+              <div class="doc-item-text">Heal Worksheet
+                <span class="doc-item-sub">Impact Through Application — implementation planning</span>
+              </div>
+              <span class="doc-item-tag tag-r">Phase 4</span>
+            </div>
+            <div class="doc-item">
+              <div class="doc-item-num">WS.05</div>
+              <div class="doc-item-text">Transformation Worksheet
+                <span class="doc-item-sub">Ministry Outcome — measuring long-term impact</span>
+              </div>
+              <span class="doc-item-tag tag-a">Phase 5</span>
+            </div>
+            <div class="doc-item">
+              <div class="doc-item-num">AS.01</div>
+              <div class="doc-item-text">Ministry Assessment (2 pages)
+                <span class="doc-item-sub">Rating scales, reflection prompts &amp; action planning grid</span>
+              </div>
+            </div>
+            <div class="doc-item">
+              <div class="doc-item-num">CV.01</div>
+              <div class="doc-item-text">MID Framework Canvas
+                <span class="doc-item-sub">Single-page visual canvas mapping the full ministry ecosystem</span>
+              </div>
+            </div>
+            <div class="doc-item">
+              <div class="doc-item-num">AU.01</div>
+              <div class="doc-item-text">Church Experience Audit (2 pages)
+                <span class="doc-item-sub">A structured audit to evaluate every touchpoint of the church experience</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── Services ── -->
+    <section class="services-section">
+      <div class="section-eyebrow reveal">Work With Us</div>
+      <h2 class="section-heading reveal d1">Take MID Further</h2>
+      <p class="services-intro reveal d2">The toolkit is where the work begins. For churches ready to go deeper, MID offers hands-on engagements that bring the framework to life — with your team, in your context.</p>
+
+      <div class="services-grid">
+
+        <!-- Tier 2 -->
+        <div class="svc-card reveal">
+          <div class="svc-card-top">
+            <span class="svc-tier">Tier 2</span>
+            <span class="svc-format">Half-Day Workshop</span>
+          </div>
+          <div class="svc-name">MID Leadership Workshop</div>
+          <p class="svc-tagline">Design ministry with your team — in a single day.</p>
+          <p class="svc-desc">A focused, hands-on workshop that equips your leadership with the full MID framework. Built around your church's specific context, challenges, and goals. Your team leaves with a shared language, a mapped experience, and a clear direction forward.</p>
+          <div class="svc-includes">
+            <div class="svc-include-item">MID Framework Training</div>
+            <div class="svc-include-item">Church Experience Mapping</div>
+            <div class="svc-include-item">Ministry Journey Analysis</div>
+            <div class="svc-include-item">Team Exercises &amp; Leadership Q&amp;A</div>
+          </div>
+          <div class="svc-price">
+            <span class="svc-price-value">$1,500 – $3,000</span>
+            <span class="svc-price-note">Scaled by church size</span>
+          </div>
+          <a href="index.html" class="svc-cta">Book a Workshop →</a>
+        </div>
+
+        <!-- Tier 3 -->
+        <div class="svc-card reveal d1">
+          <div class="svc-card-top">
+            <span class="svc-tier">Tier 3</span>
+            <span class="svc-format">2–4 Week Engagement</span>
+          </div>
+          <div class="svc-name">MID Ministry Audit</div>
+          <p class="svc-tagline">See your church the way your community actually does.</p>
+          <p class="svc-desc">A deep-dive assessment of your church's full ministry experience — from first visit through discipleship. You receive a complete MID Assessment Report with scored evaluations across seven dimensions and clear, prioritized recommendations.</p>
+          <div class="svc-includes">
+            <div class="svc-include-item">Observation, interviews &amp; ministry evaluation</div>
+            <div class="svc-include-item">Scores across 7 experience dimensions</div>
+            <div class="svc-include-item">Welcome, Belonging, Communication, Accessibility</div>
+            <div class="svc-include-item">Discipleship Journey &amp; Community Impact</div>
+          </div>
+          <div class="svc-price">
+            <span class="svc-price-value">$5,000 – $15,000</span>
+            <span class="svc-price-note">Based on scope</span>
+          </div>
+          <a href="index.html" class="svc-cta">Request an Audit →</a>
+        </div>
+
+        <!-- Tier 4 -->
+        <div class="svc-card reveal">
+          <div class="svc-card-top">
+            <span class="svc-tier">Tier 4</span>
+            <span class="svc-format">3–12 Month Retainer</span>
+          </div>
+          <div class="svc-name">MID Implementation Consulting</div>
+          <p class="svc-tagline">Strategic partnership built for lasting transformation.</p>
+          <p class="svc-desc">The most comprehensive MID engagement. Embedded strategic support as your team redesigns ministry systems, develops leadership, and builds community experiences that sustain transformation well beyond the engagement.</p>
+          <div class="svc-includes">
+            <div class="svc-include-item">Monthly strategy sessions &amp; ministry redesign</div>
+            <div class="svc-include-item">Leadership coaching &amp; volunteer systems</div>
+            <div class="svc-include-item">Community engagement strategy</div>
+            <div class="svc-include-item">AI &amp; technology integration recommendations</div>
+          </div>
+          <div class="svc-price">
+            <span class="svc-price-value">$1,500 – $5,000</span>
+            <span class="svc-price-note">/ month · 6 or 12-month terms</span>
+          </div>
+          <a href="index.html" class="svc-cta">Start a Conversation →</a>
+        </div>
+
+        <!-- Tier 5 -->
+        <div class="svc-card reveal d1">
+          <div class="svc-card-top">
+            <span class="svc-tier">Tier 5</span>
+            <span class="svc-format">Certification Program</span>
+          </div>
+          <div class="svc-name">MID Certification</div>
+          <p class="svc-tagline">Train your people to lead with intentional design.</p>
+          <p class="svc-desc">Equip pastors, ministry leaders, executive pastors, and volunteers to become Certified MID Practitioners. A scalable path to embedding intentional design culture throughout your entire organization — and beyond your time.</p>
+          <div class="svc-includes">
+            <div class="svc-include-item">Full MID Framework curriculum</div>
+            <div class="svc-include-item">Pastoral, executive &amp; volunteer tracks</div>
+            <div class="svc-include-item">Certified MID Practitioner credential</div>
+            <div class="svc-include-item">Scales across staff and volunteer teams</div>
+          </div>
+          <div class="svc-price">
+            <span class="svc-price-value">$499 – $999</span>
+            <span class="svc-price-note">/ person</span>
+          </div>
+          <a href="index.html" class="svc-cta">Learn About Certification →</a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── Purchase CTA ── -->
+    <section class="cta-section" id="purchase">
+      <div class="cta-inner">
+        <div class="cta-eyebrow">Get the Toolkit</div>
+        <h2 class="cta-title">Ready to design<br/><em>intentional</em> ministry?</h2>
+        <p class="cta-desc">Download both PDFs and start building ministry experiences that help your community feel seen, supported, and transformed.</p>
+        <div class="cta-actions">
+          <a href="#" class="btn btn-red">Purchase MID Toolkit →</a>
+          <a href="store.html" class="btn btn-ghost-white">← Back to Store</a>
+        </div>
+        <div class="cta-includes">
+          <div class="cta-include-item">
+            <span class="cta-include-dot"></span>
+            MID Framework Guide — 16 pages
+          </div>
+          <div class="cta-include-item">
+            <span class="cta-include-dot"></span>
+            5 Phase Worksheets
+          </div>
+          <div class="cta-include-item">
+            <span class="cta-include-dot"></span>
+            Ministry Assessment
+          </div>
+          <div class="cta-include-item">
+            <span class="cta-include-dot"></span>
+            MID Framework Canvas
+          </div>
+          <div class="cta-include-item">
+            <span class="cta-include-dot"></span>
+            Church Experience Audit
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ── Footer ── -->
+  <footer>
+    <div class="footer-inner">
+      <span class="footer-copy">© 2026 DSGN Logic. All rights reserved.</span>
+      <a href="store.html" class="footer-back">← Back to Store</a>
+    </div>
+  </footer>
+
+  <script>
+    const cur = document.getElementById('cur');
+    document.addEventListener('mousemove', e => {
+      cur.style.left = e.clientX + 'px';
+      cur.style.top  = e.clientY + 'px';
+    });
+
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+    // Trigger hero items immediately
+    document.querySelectorAll('.hero *').forEach(el => el.classList.add('in'));
+  </script>
+</body>
+</html>

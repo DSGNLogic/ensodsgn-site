@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Store — Michael Edward</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --brand-primary:  #FF4F23;
+      --brand-dark:     #062521;
+      --brand-navy:     #043E5C;
+      --brand-neutral:  #F2F2F2;
+      --brand-coral:    #E48174;
+      --brand-sage:     #C2E1BB;
+      --brand-blue:     #1186DE;
+      --bg:     #FFFFFF;
+      --ink:    #062521;
+      --muted:  rgba(6,37,33,0.50);
+      --faint:  rgba(6,37,33,0.07);
+      --border: rgba(6,37,33,0.10);
+      --red:    #FF4F23;
+      --shadow-lg: 0 8px 32px rgba(6,37,33,0.10), 0 4px 8px rgba(6,37,33,0.06);
+      --shadow-xl: 0 20px 60px rgba(6,37,33,0.12), 0 8px 20px rgba(6,37,33,0.07);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* ── Cursor ── */
+    #cur {
+      position: fixed;
+      width: 8px; height: 8px;
+      background: var(--red);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%,-50%);
+      transition: width .2s, height .2s, background .2s;
+    }
+    body:has(a:hover) #cur,
+    body:has(button:hover) #cur {
+      width: 48px; height: 48px;
+      background: rgba(255,79,35,0.15);
+      border: 1px solid rgba(255,79,35,0.35);
+    }
+
+    /* ── Nav ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 24px 48px;
+      background: rgba(242,242,242,0.92);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-name {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 16px;
+      letter-spacing: 0.01em;
+      color: var(--ink);
+      text-decoration: none;
+    }
+    .nav-links {
+      display: flex;
+      gap: 40px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-links a.active { color: var(--red); }
+    .nav-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 18px;
+      border-radius: 100px;
+      background: var(--ink);
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border: none;
+      cursor: none;
+      transition: background .2s, transform .15s;
+    }
+    .nav-cta:hover { background: var(--red); transform: translateY(-1px); }
+    .avail-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: #3a9e55;
+      flex-shrink: 0;
+      animation: pulse-avail 2s infinite;
+    }
+    @keyframes pulse-avail {
+      0%,100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    /* ── Buttons ── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 13px 26px;
+      border-radius: 100px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: all .2s ease;
+      cursor: none;
+      border: none;
+      font-family: 'Inter', sans-serif;
+    }
+    .btn-ink { background: var(--ink); color: var(--bg); }
+    .btn-ink:hover { background: var(--red); transform: translateY(-1px); }
+    .btn-red { background: var(--red); color: #fff; }
+    .btn-red:hover { background: #e03d10; transform: translateY(-1px); }
+    .btn-ghost {
+      background: transparent;
+      color: var(--ink);
+      border: 1px solid var(--border);
+    }
+    .btn-ghost:hover { border-color: rgba(6,37,33,0.35); }
+
+    /* ── Main ── */
+    main { padding-top: 88px; }
+
+    /* ── Store Hero ── */
+    .store-hero {
+      padding: 88px 56px 80px;
+      border-bottom: 1px solid var(--border);
+    }
+    .store-eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 16px;
+    }
+    .store-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: clamp(60px, 8vw, 96px);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      margin-bottom: 24px;
+    }
+    .store-desc {
+      font-size: 18px;
+      color: var(--muted);
+      max-width: 540px;
+      line-height: 1.75;
+    }
+
+    /* ── Store Section ── */
+    .store-section {
+      padding: 88px 56px;
+      border-bottom: 1px solid var(--border);
+    }
+    .store-section--neutral { background: var(--brand-neutral); }
+
+    .section-eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+    .section-heading {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: clamp(36px, 4vw, 52px);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+      margin-bottom: 16px;
+    }
+    .section-intro {
+      font-size: 16px;
+      color: var(--muted);
+      max-width: 520px;
+      line-height: 1.8;
+    }
+    .section-header { margin-bottom: 56px; }
+
+    /* ── Book Card ── */
+    .book-card {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 72px;
+      align-items: start;
+      padding: 64px;
+      background: var(--brand-dark);
+      border-radius: 24px;
+      overflow: hidden;
+      position: relative;
+    }
+    .book-card::before {
+      content: 'FF';
+      position: absolute;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 300px;
+      font-weight: 800;
+      color: rgba(255,255,255,0.025);
+      line-height: 1;
+      bottom: -50px;
+      right: 40px;
+      user-select: none;
+      pointer-events: none;
+    }
+    .book-card-image { position: relative; z-index: 1; }
+    .book-card-img {
+      width: 100%;
+      height: 420px;
+      object-fit: cover;
+      border-radius: 4px 12px 12px 4px;
+      box-shadow: 0 24px 80px rgba(45,140,78,0.45), 0 0 40px rgba(45,140,78,0.25);
+      display: block;
+      transition: box-shadow .4s ease, transform .4s ease;
+    }
+    .book-card-img:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 36px 100px rgba(45,140,78,0.55), 0 0 60px rgba(45,140,78,0.35);
+    }
+    .book-card-info {
+      position: relative;
+      z-index: 1;
+      color: #fff;
+      padding-top: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .book-card-tag {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--brand-sage);
+      margin-bottom: 20px;
+    }
+    .book-card-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: clamp(52px, 5.5vw, 80px);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 0.92;
+      margin-bottom: 20px;
+    }
+    .book-card-title span { color: var(--red); }
+    .book-card-subtitle {
+      font-size: 15px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.45);
+      margin-bottom: 32px;
+    }
+    .book-card-rule { width: 48px; height: 1px; background: rgba(255,255,255,0.12); margin-bottom: 28px; }
+    .book-card-desc {
+      font-size: 15px;
+      color: rgba(255,255,255,0.50);
+      line-height: 1.85;
+      max-width: 440px;
+      margin-bottom: 36px;
+    }
+    .book-card-meta {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+    }
+    .book-badge {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 20px;
+      padding: 5px 14px;
+    }
+
+    /* ── Toolkit Grid ── */
+    .toolkit-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    .toolkit-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      transition: border-color .25s, box-shadow .25s, transform .25s;
+    }
+    .toolkit-card:not(.toolkit-card--soon):hover {
+      border-color: rgba(6,37,33,0.18);
+      box-shadow: var(--shadow-xl);
+      transform: translateY(-4px);
+    }
+    .toolkit-card--soon {
+      background: transparent;
+      border: 1.5px dashed rgba(6,37,33,0.12);
+    }
+    .toolkit-card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .toolkit-badge {
+      width: 56px; height: 56px;
+      background: var(--brand-dark);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: 0;
+      flex-shrink: 0;
+    }
+    .toolkit-badge--muted {
+      background: var(--faint);
+      color: rgba(6,37,33,0.3);
+      font-size: 22px;
+      font-weight: 300;
+    }
+    .toolkit-meta-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+    }
+    .toolkit-meta-dot { color: rgba(6,37,33,0.2); }
+    .toolkit-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+    }
+    .toolkit-title--muted { color: rgba(6,37,33,0.35); }
+    .toolkit-subtitle {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-top: -8px;
+    }
+    .toolkit-desc {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.8;
+      flex: 1;
+    }
+    .toolkit-desc--muted { color: rgba(6,37,33,0.3); }
+    .toolkit-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .tag {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--muted);
+      background: var(--faint);
+      border-radius: 20px;
+      padding: 4px 12px;
+    }
+    .toolkit-btn { margin-top: 8px; align-self: flex-start; }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 24px 56px;
+    }
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .footer-copy { font-size: 12px; color: var(--muted); letter-spacing: 0.04em; }
+    .footer-back {
+      font-size: 12px;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color .2s;
+    }
+    .footer-back:hover { color: var(--ink); }
+
+    /* ── Reveal ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity .8s ease, transform .8s cubic-bezier(.16,1,.3,1);
+    }
+    .reveal.in { opacity: 1; transform: none; }
+    .d1 { transition-delay: .1s; }
+    .d2 { transition-delay: .2s; }
+    .d3 { transition-delay: .3s; }
+
+    /* ── Responsive ── */
+    @media (max-width: 1024px) {
+      nav { padding: 20px 24px; }
+      .nav-links { display: none; }
+      .store-hero { padding: 64px 24px 56px; }
+      .store-section { padding: 64px 24px; }
+      .book-card { grid-template-columns: 1fr; gap: 40px; padding: 40px 32px; }
+      .book-card-img { height: 300px; max-width: 220px; }
+      .toolkit-grid { grid-template-columns: 1fr; }
+      footer { padding: 20px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="cur"></div>
+
+  <!-- ── Nav ── -->
+  <nav>
+    <a href="index.html" class="nav-name">Michael Edward</a>
+    <ul class="nav-links">
+      <li><a href="index.html#book">Book</a></li>
+      <li><a href="index.html#work">Work</a></li>
+      <li><a href="index.html#philosophy">Philosophy</a></li>
+      <li><a href="index.html#services">Services</a></li>
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="store.html" class="active">Store</a></li>
+    </ul>
+    <a href="index.html" class="nav-cta">
+      <span class="avail-dot"></span>
+      Let's talk →
+    </a>
+  </nav>
+
+  <main>
+
+    <!-- ── Store Hero ── -->
+    <section class="store-hero">
+      <div class="store-eyebrow reveal">Products &amp; Resources</div>
+      <h1 class="store-title reveal d1">Store</h1>
+      <p class="store-desc reveal d2">Books, toolkits, and frameworks for designers, ministry leaders, and intentional practitioners.</p>
+    </section>
+
+    <!-- ── Books ── -->
+    <section class="store-section" id="books">
+      <div class="section-header">
+        <div class="section-eyebrow reveal">Books</div>
+        <h2 class="section-heading reveal d1">Published Work</h2>
+      </div>
+
+      <article class="book-card reveal">
+        <div class="book-card-image">
+          <img src="images/Feel First Book.jpg" alt="Feel First by Michael Edward" class="book-card-img" />
+        </div>
+        <div class="book-card-info">
+          <div class="book-card-tag">Now Available</div>
+          <h3 class="book-card-title">Feel<br/><span>First</span></h3>
+          <p class="book-card-subtitle">A Design Philosophy for the Age of AI</p>
+          <div class="book-card-rule"></div>
+          <p class="book-card-desc">An exploration of empathy and emotion in the creative process — and the intellectual foundation for the Feel First Framework™. Written for designers, technologists, and leaders navigating the intersection of human experience and artificial intelligence.</p>
+          <div class="book-card-meta">
+            <span class="book-badge">Paperback</span>
+            <span class="book-badge">E-book</span>
+            <span class="book-badge">Barnes &amp; Noble</span>
+          </div>
+          <a href="https://www.barnesandnoble.com/w/feel-first-michael-edward/1149390303?ean=9798279646371"
+             target="_blank" rel="noopener noreferrer" class="btn btn-red" style="align-self:flex-start;">Get the Book →</a>
+        </div>
+      </article>
+    </section>
+
+    <!-- ── Toolkits ── -->
+    <section class="store-section store-section--neutral" id="toolkits">
+      <div class="section-header">
+        <div class="section-eyebrow reveal">Toolkits</div>
+        <h2 class="section-heading reveal d1">Frameworks &amp; Resources</h2>
+        <p class="section-intro reveal d2">Practical tools built on the Feel First methodology — for designers, ministry leaders, and communities of intentional practice.</p>
+      </div>
+
+      <div class="toolkit-grid">
+
+        <!-- MID Toolkit -->
+        <article class="toolkit-card reveal">
+          <div class="toolkit-card-top">
+            <div class="toolkit-badge">MID</div>
+            <div class="toolkit-meta-row">
+              <span>2 PDFs</span>
+              <span class="toolkit-meta-dot">·</span>
+              <span>28+ pages</span>
+              <span class="toolkit-meta-dot">·</span>
+              <span>5 worksheets</span>
+            </div>
+          </div>
+          <h3 class="toolkit-title">MID Toolkit</h3>
+          <div class="toolkit-subtitle">Ministry of Intentional Design</div>
+          <p class="toolkit-desc">A complete design thinking toolkit for church leaders and ministry teams — built on empathy, the Feel First philosophy, and a 5-phase framework that guides communities toward transformational ministry experiences.</p>
+          <div class="toolkit-tags">
+            <span class="tag">Framework Guide</span>
+            <span class="tag">5 Worksheets</span>
+            <span class="tag">Ministry Assessment</span>
+            <span class="tag">Canvas</span>
+            <span class="tag">Experience Audit</span>
+          </div>
+          <a href="mid-toolkit.html" class="btn btn-ink toolkit-btn">View Toolkit →</a>
+        </article>
+
+        <!-- Coming Soon -->
+        <article class="toolkit-card toolkit-card--soon reveal d1">
+          <div class="toolkit-card-top">
+            <div class="toolkit-badge toolkit-badge--muted">+</div>
+          </div>
+          <h3 class="toolkit-title toolkit-title--muted">More Coming Soon</h3>
+          <p class="toolkit-desc toolkit-desc--muted">Additional toolkits and design frameworks are currently in development. Join the list to be notified when new resources drop.</p>
+          <a href="index.html" class="btn btn-ghost">Get Notified →</a>
+        </article>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ── Footer ── -->
+  <footer>
+    <div class="footer-inner">
+      <span class="footer-copy">© 2026 DSGN Logic. All rights reserved.</span>
+      <a href="index.html" class="footer-back">← Back to Home</a>
+    </div>
+  </footer>
+
+  <script>
+    const cur = document.getElementById('cur');
+    document.addEventListener('mousemove', e => {
+      cur.style.left = e.clientX + 'px';
+      cur.style.top  = e.clientY + 'px';
+    });
+
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  </script>
+</body>
+</html>

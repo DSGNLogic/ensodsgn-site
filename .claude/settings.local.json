@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 -c ' *)",
+      "Bash(node --check /tmp/check.js)",
+      "Bash(python3 *)",
+      "WebFetch(domain:www.dsgnlogic.com)",
+      "Bash(open *)",
+      "Bash(screencapture -x /tmp/store-screenshot.png)"
+    ]
+  }
+}

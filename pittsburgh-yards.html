@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pittsburgh Yards — Michael Edward</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --brand-primary:  #FF4F23;
+      --brand-dark:     #062521;
+      --brand-navy:     #043E5C;
+      --brand-neutral:  #F2F2F2;
+      --brand-coral:    #E48174;
+      --brand-sage:     #C2E1BB;
+      --brand-blue:     #1186DE;
+      --bg:      #FFFFFF;
+      --ink:     #062521;
+      --muted:   rgba(6,37,33,0.50);
+      --faint:   rgba(6,37,33,0.07);
+      --border:  rgba(6,37,33,0.10);
+      --red:     #FF4F23;
+      --shadow-lg: 0 8px 32px rgba(6,37,33,0.10), 0 4px 8px rgba(6,37,33,0.06);
+      --f-xs:4px; --f-s:8px; --f-l:16px; --f-xl:20px; --f-xxl:24px;
+      --f-xxxl:32px; --f-4xl:40px; --f-5xl:48px; --f-6xl:64px;
+      --f-7xl:80px; --f-8xl:96px; --f-9xl:120px;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* ── Cursor ── */
+    #cur {
+      position: fixed; width: 8px; height: 8px;
+      background: var(--red); border-radius: 50%;
+      pointer-events: none; z-index: 9999;
+      transform: translate(-50%,-50%);
+      transition: width .2s, height .2s, background .2s;
+    }
+    body:has(a:hover) #cur,
+    body:has(button:hover) #cur {
+      width: 48px; height: 48px;
+      background: rgba(255,79,35,0.15);
+      border: 1px solid rgba(255,79,35,0.35);
+    }
+
+    /* ── Nav ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 24px 48px;
+      background: rgba(242,242,242,0.92);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-name {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700; font-size: 16px;
+      color: var(--ink); text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 40px; list-style: none; }
+    .nav-links a {
+      font-size: 12px; font-weight: 500;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--muted); text-decoration: none; transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-cta {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 9px 18px; border-radius: 100px;
+      background: var(--ink); color: #fff;
+      font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      text-decoration: none; border: none; cursor: none;
+      transition: background .2s;
+    }
+    .nav-cta:hover { background: var(--red); }
+    .avail-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: #3a9e55; flex-shrink: 0;
+      animation: pulse-avail 2s infinite;
+    }
+    @keyframes pulse-avail { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+    /* ── Page transition ── */
+    #page-transition {
+      position: fixed; inset: 0; background: var(--ink);
+      z-index: 10000; pointer-events: none;
+      transition: opacity 0.65s cubic-bezier(0.16,1,0.3,1);
+    }
+    #page-transition.out { opacity: 0; }
+
+    /* ── Reveal ── */
+    .reveal {
+      opacity: 0; transform: translateY(24px);
+      transition: opacity .7s cubic-bezier(.16,1,.3,1), transform .7s cubic-bezier(.16,1,.3,1);
+    }
+    .reveal.d1{transition-delay:.1s} .reveal.d2{transition-delay:.2s}
+    .reveal.d3{transition-delay:.3s} .reveal.d4{transition-delay:.4s}
+    .reveal.in { opacity: 1; transform: none; }
+
+    /* ── Word split ── */
+    .split-wrap { display:inline-block; overflow:hidden; vertical-align:bottom; line-height:1; }
+    .split-inner { display:inline-block; transform:translateY(115%); transition:transform 0.85s cubic-bezier(0.16,1,0.3,1); }
+    .split-inner.in { transform:translateY(0); }
+
+    /* ── Hero ── */
+    #cs-hero {
+      min-height: 85vh;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 160px 48px 80px;
+      background:
+        linear-gradient(to bottom, rgba(6,37,33,0.45) 0%, rgba(6,37,33,0.88) 100%),
+        url('https://www.dsgnlogic.com/wp-content/uploads/2023/10/PY_CaseStudy.jpg') center/cover no-repeat;
+      position: relative; overflow: hidden;
+    }
+    .cs-hero-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+      background-size: 36px 36px;
+    }
+    .cs-hero-glyph {
+      position: absolute; bottom: -20px; right: 40px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 360px; font-weight: 800;
+      color: rgba(255,255,255,0.04); line-height: 1; user-select: none;
+    }
+    .cs-eyebrow {
+      font-size: 11px; font-weight: 500; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--brand-sage);
+      margin-bottom: 24px; position: relative;
+    }
+    .cs-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: clamp(40px, 6vw, 88px); font-weight: 800;
+      line-height: 1; letter-spacing: -0.04em;
+      color: #fff; max-width: 960px; margin-bottom: 48px; position: relative;
+    }
+    .cs-meta-row { display: flex; gap: 64px; position: relative; }
+    .cs-meta-label {
+      font-size: 11px; font-weight: 500; letter-spacing: 0.12em;
+      text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 6px;
+    }
+    .cs-meta-value {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 16px; font-weight: 500; color: rgba(255,255,255,0.85);
+    }
+
+    /* ── Outcomes ── */
+    #cs-outcomes { padding: 80px 48px; border-bottom: 1px solid var(--border); }
+    .outcomes-label {
+      font-size: 11px; font-weight: 500; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--muted); margin-bottom: 48px;
+    }
+    .outcomes-grid {
+      display: grid; grid-template-columns: repeat(4,1fr);
+      border-top: 1px solid var(--border);
+    }
+    .outcome-item {
+      padding: 40px 24px; border-right: 1px solid var(--border);
+      display: flex; flex-direction: column; align-items: center; text-align: center;
+    }
+    .outcome-item:last-child { border-right: none; }
+    .outcome-stat {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: clamp(32px,3.5vw,52px); font-weight: 800;
+      letter-spacing: -0.04em; color: var(--ink); margin-bottom: 8px;
+    }
+    .outcome-stat em { font-style: normal; color: var(--red); }
+    .outcome-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+    /* ── Body sections ── */
+    .cs-section { padding: 96px 48px; border-bottom: 1px solid var(--border); }
+    .cs-section.dark { background: var(--ink); color: var(--bg); }
+    .cs-section.neutral { background: var(--brand-neutral); }
+    .cs-section-inner { max-width: 1200px; margin: 0 auto; }
+    .cs-section-layout { display: grid; grid-template-columns: 1fr 2fr; gap: 80px; align-items: start; }
+    .cs-section-layout.reverse { grid-template-columns: 2fr 1fr; }
+    .cs-section-label {
+      font-size: 11px; font-weight: 500; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--muted); margin-bottom: 16px;
+    }
+    .cs-section.dark .cs-section-label { color: var(--brand-sage); }
+    .cs-section-heading {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: clamp(28px,3vw,44px); font-weight: 700;
+      letter-spacing: -0.03em; line-height: 1.15; margin-bottom: 24px;
+    }
+    .cs-section.dark .cs-section-heading { color: var(--bg); }
+    .cs-section-body { font-size: 17px; color: var(--muted); line-height: 1.9; }
+    .cs-section.dark .cs-section-body { color: rgba(255,255,255,0.55); }
+    .cs-section-body p + p { margin-top: 20px; }
+
+    /* ── Pull quote ── */
+    .pull-quote {
+      margin-top: 40px; padding: 28px 36px;
+      border-left: 3px solid var(--brand-coral);
+      background: rgba(228,129,116,0.06);
+      border-radius: 0 12px 12px 0;
+    }
+    .pull-quote p {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: clamp(17px,1.8vw,22px); font-weight: 600;
+      line-height: 1.45; letter-spacing: -0.01em;
+      color: var(--ink); font-style: italic;
+    }
+    .pull-quote cite {
+      display: block; margin-top: 12px;
+      font-size: 12px; font-weight: 500; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--muted); font-style: normal;
+    }
+
+    /* ── Principles list (dark) ── */
+    .principles-list { display:flex; flex-direction:column; border-top:1px solid rgba(255,255,255,0.10); }
+    .principle-row {
+      display: grid; grid-template-columns: 40px 1fr;
+      gap: 24px; padding: 32px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.10); align-items: start;
+    }
+    .pr-num { font-size:11px; font-weight:500; letter-spacing:0.1em; color:rgba(255,255,255,0.25); padding-top:3px; }
+    .pr-title { font-family:'Plus Jakarta Sans',sans-serif; font-size:20px; font-weight:700; color:var(--bg); margin-bottom:8px; }
+    .pr-desc { font-size:15px; color:rgba(255,255,255,0.50); line-height:1.7; }
+
+    /* ── Full-width image break ── */
+    .img-break { border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .img-break img { width: 100%; display: block; }
+
+    /* ── Feature blocks ── */
+    .feature-block { padding: 80px 48px; border-bottom: 1px solid var(--border); }
+    .feature-inner { max-width:1200px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center; }
+    .feature-inner.flip { direction:rtl; }
+    .feature-inner.flip > * { direction:ltr; }
+    .feature-label { font-size:11px; font-weight:500; letter-spacing:0.14em; text-transform:uppercase; color:var(--muted); margin-bottom:16px; }
+    .feature-heading { font-family:'Plus Jakarta Sans',sans-serif; font-size:clamp(26px,2.5vw,38px); font-weight:700; letter-spacing:-0.03em; line-height:1.2; margin-bottom:20px; }
+    .feature-body { font-size:16px; color:var(--muted); line-height:1.85; }
+    .feature-img {
+      width:100%; border-radius:32px; display:block; border:1px solid var(--border);
+      transition: box-shadow .3s ease, transform .3s cubic-bezier(.16,1,.3,1);
+    }
+    .feature-img:hover { box-shadow:var(--shadow-lg); transform:translateY(-3px); }
+
+    /* ── Brand mark ── */
+    .brand-mark-wrap {
+      width:100%; aspect-ratio:4/3; border-radius:32px;
+      border:1px solid var(--border); background:var(--brand-neutral);
+      display:flex; align-items:center; justify-content:center;
+      position:relative; overflow:hidden;
+      transition: box-shadow .3s ease, transform .3s cubic-bezier(.16,1,.3,1);
+    }
+    .brand-mark-wrap:hover { box-shadow:var(--shadow-lg); transform:translateY(-3px); }
+    .brand-mark-p {
+      font-family:'Plus Jakarta Sans',sans-serif; font-size:200px;
+      font-weight:800; color:var(--ink); line-height:1;
+      letter-spacing:-0.06em; user-select:none;
+    }
+    .brand-mark-label {
+      position:absolute; bottom:24px; left:32px;
+      font-size:11px; font-weight:600; letter-spacing:0.12em;
+      text-transform:uppercase; color:var(--muted);
+    }
+
+    /* ── Slideshow ── */
+    .slideshow { position:relative; }
+    .slideshow-track {
+      position:relative; overflow:hidden;
+      border-radius:32px; border:1px solid var(--border); aspect-ratio:16/10;
+      transition: box-shadow .3s ease, transform .3s cubic-bezier(.16,1,.3,1);
+    }
+    .slideshow-track:hover { box-shadow:var(--shadow-lg); transform:translateY(-3px); }
+    .slideshow-track .slide { display:none; width:100%; height:100%; object-fit:cover; border:none; border-radius:0; margin:0; }
+    .slideshow-track .slide.active { display:block; }
+    .slideshow-controls { display:flex; align-items:center; justify-content:space-between; margin-top:14px; }
+    .slide-btn {
+      background:none; border:1px solid var(--border); color:var(--muted);
+      font-size:14px; width:36px; height:36px; border-radius:50%;
+      cursor:none; display:flex; align-items:center; justify-content:center; transition:all .2s;
+    }
+    .slide-btn:hover { background:var(--red); border-color:var(--red); color:#fff; }
+    .slide-dots { display:flex; gap:8px; align-items:center; }
+    .slide-dot { width:6px; height:6px; border-radius:50%; background:var(--border); transition:background .2s,transform .2s; cursor:none; }
+    .slide-dot.active { background:var(--red); transform:scale(1.4); }
+
+    /* ── Photo grid ── */
+    .photo-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+    .photo-grid-item {
+      border-radius:24px; overflow:hidden; border:1px solid var(--border);
+      transition: box-shadow .3s ease, transform .3s cubic-bezier(.16,1,.3,1);
+    }
+    .photo-grid-item:hover { box-shadow:var(--shadow-lg); transform:translateY(-3px); }
+    .photo-grid-item img { width:100%; display:block; transition:transform .4s cubic-bezier(.16,1,.3,1); }
+    .photo-grid-item:hover img { transform:scale(1.04); }
+
+    /* ── Results grid ── */
+    .results-grid { display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--border); border:1px solid var(--border); border-radius:16px; overflow:hidden; }
+    .result-item { background:var(--bg); padding:32px; }
+    .result-stat { font-family:'Plus Jakarta Sans',sans-serif; font-size:36px; font-weight:800; letter-spacing:-0.04em; color:var(--ink); margin-bottom:6px; }
+    .result-stat.highlight { color:var(--brand-primary); }
+    .result-stat.blue      { color:var(--brand-blue); }
+    .result-label { font-size:13px; color:var(--muted); line-height:1.5; }
+
+    /* ── Next case ── */
+    #cs-next { padding:96px 48px; border-top:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; }
+    .next-label { font-size:11px; font-weight:500; letter-spacing:0.14em; text-transform:uppercase; color:var(--muted); margin-bottom:12px; }
+    .next-title { font-family:'Plus Jakarta Sans',sans-serif; font-size:clamp(28px,3vw,44px); font-weight:700; letter-spacing:-0.03em; }
+    .next-arrow-btn {
+      display:inline-flex; align-items:center; justify-content:center;
+      width:64px; height:64px; border:1px solid var(--border); border-radius:50%;
+      font-size:24px; color:var(--muted); text-decoration:none; transition:all .25s; flex-shrink:0;
+    }
+    .next-arrow-btn:hover { background:var(--red); border-color:var(--red); color:#fff; transform:rotate(45deg); }
+
+    /* ── Footer ── */
+    footer { border-top:1px solid var(--border); padding:32px 48px; }
+    .footer-inner { display:flex; align-items:center; justify-content:space-between; }
+    .footer-name { font-family:'Plus Jakarta Sans',sans-serif; font-weight:700; font-size:16px; color:var(--ink); text-decoration:none; }
+    .footer-copy { font-size:12px; color:var(--muted); }
+    .footer-top { font-size:12px; font-weight:500; letter-spacing:0.08em; color:var(--muted); text-decoration:none; transition:color .2s; }
+    .footer-top:hover { color:var(--ink); }
+
+    /* ── YouTube thumbnail ── */
+    .yt-thumb {
+      position: absolute; inset: 0;
+      display: block; text-decoration: none; overflow: hidden;
+    }
+    .yt-thumb img {
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+      transition: transform 0.5s cubic-bezier(.16,1,.3,1);
+    }
+    .yt-thumb:hover img { transform: scale(1.04); }
+    .yt-play-btn {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 72px; height: 72px;
+      background: var(--brand-primary);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 8px 32px rgba(255,79,35,0.5);
+      transition: background .2s, transform .25s cubic-bezier(.16,1,.3,1);
+    }
+    .yt-thumb:hover .yt-play-btn {
+      background: #e63e12;
+      transform: translate(-50%, -50%) scale(1.12);
+    }
+    .yt-play-btn svg { margin-left: 5px; }
+    .yt-watch-label {
+      position: absolute; bottom: 20px; right: 20px;
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: rgba(255,255,255,0.65);
+      background: rgba(0,0,0,0.38);
+      padding: 5px 12px; border-radius: 20px;
+      backdrop-filter: blur(8px);
+      transition: color .2s;
+    }
+    .yt-thumb:hover .yt-watch-label { color: rgba(255,255,255,0.95); }
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+      nav { padding:20px 24px; }
+      .nav-links { display:none; }
+      #cs-hero { padding:120px 24px 60px; }
+      .cs-meta-row { flex-wrap:wrap; gap:32px; }
+      #cs-outcomes { padding:60px 24px; }
+      .outcomes-grid { grid-template-columns:repeat(2,1fr); }
+      .outcome-item:last-child { grid-column:span 2; }
+      .cs-section { padding:60px 24px; }
+      .cs-section-layout, .cs-section-layout.reverse { grid-template-columns:1fr; gap:40px; }
+      .feature-block { padding:60px 24px; }
+      .feature-inner, .feature-inner.flip { grid-template-columns:1fr; gap:40px; direction:ltr; }
+      .photo-grid { grid-template-columns:1fr 1fr; }
+      .results-grid { grid-template-columns:1fr; }
+      #cs-next { padding:60px 24px; flex-direction:column; align-items:flex-start; gap:32px; }
+      footer { padding:24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="page-transition"></div>
+  <div id="cur"></div>
+
+  <!-- ── Nav ── -->
+  <nav id="nav">
+    <a href="index.html" class="nav-name">Michael Edward</a>
+    <ul class="nav-links">
+      <li><a href="index.html#book">Book</a></li>
+      <li><a href="index.html#work">Work</a></li>
+      <li><a href="index.html#philosophy">Philosophy</a></li>
+      <li><a href="index.html#services">Services</a></li>
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="index.html#quotes">Testimonials</a></li>
+      <li><a href="store.html">Store</a></li>
+    </ul>
+    <a href="index.html#contact" class="nav-cta">
+      <span class="avail-dot"></span>
+      Let's talk →
+    </a>
+  </nav>
+
+  <!-- ── Hero ── -->
+  <section id="cs-hero">
+    <div class="cs-hero-grid"></div>
+    <div class="cs-hero-glyph">PY</div>
+    <div class="cs-eyebrow">Case Study · Brand Identity &amp; Systems</div>
+    <h1 class="cs-title">A Brand Framework Built for Partners, Residents, and Scale</h1>
+    <div class="cs-meta-row">
+      <div class="cs-meta-item">
+        <div class="cs-meta-label">Role</div>
+        <div class="cs-meta-value">Design Manager · Brand Strategist</div>
+      </div>
+      <div class="cs-meta-item">
+        <div class="cs-meta-label">Scope</div>
+        <div class="cs-meta-value">Identity · Environmental · Digital</div>
+      </div>
+      <div class="cs-meta-item">
+        <div class="cs-meta-label">Client</div>
+        <div class="cs-meta-value">Pittsburgh Yards · Atlanta, GA</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Key Outcomes ── -->
+  <section id="cs-outcomes">
+    <div class="outcomes-label reveal">Key Outcomes</div>
+    <div class="outcomes-grid">
+      <div class="outcome-item reveal d1">
+        <div class="outcome-stat"><em>$26M+</em></div>
+        <div class="outcome-desc">Phase I development supported by the brand framework</div>
+      </div>
+      <div class="outcome-item reveal d2">
+        <div class="outcome-stat"><em>101</em></div>
+        <div class="outcome-desc">Small business workspaces leased in the Nia Building</div>
+      </div>
+      <div class="outcome-item reveal d3">
+        <div class="outcome-stat"><em>1,000+</em></div>
+        <div class="outcome-desc">Long-term jobs projected through the development</div>
+      </div>
+      <div class="outcome-item reveal d4">
+        <div class="outcome-stat"><em>4</em></div>
+        <div class="outcome-desc">Brand channels unified — digital, print, environmental, spatial</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Context ── -->
+  <section class="cs-section">
+    <div class="cs-section-inner">
+      <div class="cs-section-layout">
+        <div class="reveal">
+          <div class="cs-section-label">The Context</div>
+          <h2 class="cs-section-heading">A community-centered development needed a voice as strong as its vision</h2>
+          <div class="pull-quote" style="margin-top:32px;">
+            <p>"I treat design as a tool for trust-building as much as for communication."</p>
+            <cite>— Michael Edward, Design Manager</cite>
+          </div>
+        </div>
+        <div class="reveal d1">
+          <div class="cs-section-body">
+            <p>Pittsburgh Yards is a 31-acre mixed-use development in the Pittsburgh neighborhood of Atlanta — built to support entrepreneurship, creative opportunity, and local economic growth. The ambition was clear: create an anchor for a community that had historically been overlooked by investment and urban planning.</p>
+            <p>What it lacked was a visual language that could carry that ambition. The brand needed to establish credibility with investors and institutional partners while remaining human, local, and genuinely community-first. Doing both at once — and at scale — was the design challenge.</p>
+          </div>
+          <div style="margin-top:40px;border-radius:32px;overflow:hidden;border:1px solid var(--border);">
+            <img src="https://www.dsgnlogic.com/wp-content/uploads/2023/10/Interior-shot-of-The-Nia-Building-at-Pittsburgh-Yards-during-construction-process.jpg"
+              alt="Interior of the Nia Building at Pittsburgh Yards during construction"
+              style="width:100%;display:block;" loading="lazy" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Challenge ── -->
+  <section class="cs-section dark">
+    <div class="cs-section-inner">
+      <div class="cs-section-label reveal">The Challenge</div>
+      <h2 class="cs-section-heading reveal d1" style="max-width:740px;">Four tensions a single identity system had to hold simultaneously</h2>
+      <div class="principles-list" style="margin-top:48px;">
+        <div class="principle-row reveal d1">
+          <span class="pr-num">01</span>
+          <div>
+            <div class="pr-title">Credibility vs. Community</div>
+            <div class="pr-desc">Partners and investors needed to see professionalism and scale. Residents needed to see themselves. The identity had to speak both languages without becoming a compromise of either.</div>
+          </div>
+        </div>
+        <div class="principle-row reveal d2">
+          <span class="pr-num">02</span>
+          <div>
+            <div class="pr-title">Flexibility vs. Consistency</div>
+            <div class="pr-desc">The system had to flex across leasing decks, wayfinding, social media, and community events — maintained by a lean, non-design team. If it required a designer to use it, it would fail in the field.</div>
+          </div>
+        </div>
+        <div class="principle-row reveal d3">
+          <span class="pr-num">03</span>
+          <div>
+            <div class="pr-title">Heritage vs. Forward Motion</div>
+            <div class="pr-desc">Pittsburgh Yards had to honor the neighborhood's existing culture and memory while projecting a future of economic opportunity. The identity needed to feel rooted and aspirational at once.</div>
+          </div>
+        </div>
+        <div class="principle-row reveal d4">
+          <span class="pr-num">04</span>
+          <div>
+            <div class="pr-title">Vision vs. Budget</div>
+            <div class="pr-desc">Communities rarely have design budgets that match their ambitions. The system needed maximum impact with minimal production overhead — reusable, modular, and easy to extend.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Process full-width image ── -->
+  <div class="img-break">
+    <img src="https://www.dsgnlogic.com/wp-content/uploads/2023/10/PY-Photos-scaled.jpg"
+      alt="Pittsburgh Yards development photography" loading="lazy" />
+  </div>
+
+  <!-- ── Process ── -->
+  <section class="cs-section">
+    <div class="cs-section-inner">
+      <div class="cs-section-layout">
+        <div class="reveal">
+          <div class="cs-section-label">The Process</div>
+          <h2 class="cs-section-heading">Listening before designing</h2>
+        </div>
+        <div class="reveal d1">
+          <div class="cs-section-body">
+            <p>The work began with weekly community meetings — residents, entrepreneurs, and stakeholders in the same room. Not focus groups. Conversations. We surfaced hopes, fears, and identity aspirations before a single mark was sketched.</p>
+            <p>From those sessions I distilled a strategic brief anchored by four core values: economic mobility, entrepreneurship, cultural affirmation, and equity. Every design decision was pressure-tested against those pillars. If a direction looked polished but felt like it was made for someone else, it was wrong.</p>
+            <p>Alongside the community work, I collaborated directly with developers and economic planners to ensure brand integrity didn't get eroded by functional requirements — leasing templates, layout specs, programming schedules. The brand had to survive contact with operations.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Feature: The P Mark ── -->
+  <div class="feature-block">
+    <div class="feature-inner">
+      <div>
+        <div class="feature-label reveal">Identity</div>
+        <h3 class="feature-heading reveal d1">The "P" Mark — connection made visible</h3>
+        <p class="feature-body reveal d2">The primary mark is a continuous line forming a stylized "P" — a deliberate symbol of connection across people, history, and opportunity. The line doesn't close. It stays open, signaling a community still in motion, still growing.</p>
+        <p class="feature-body reveal d2" style="margin-top:16px;">The mark works at every scale: embossed on signage at the entrance, as a favicon in a browser, as a watermark on a leasing deck. Range of fidelity was a hard requirement, not a bonus.</p>
+      </div>
+      <div class="reveal d1">
+        <img src="https://www.dsgnlogic.com/wp-content/uploads/2023/10/iScreen-Shoter-Google-Chrome-251105082611.jpg"
+          alt="Pittsburgh Yards brand identity" class="feature-img" loading="lazy" />
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Feature: Digital Presence (slideshow) ── -->
+  <div class="feature-block">
+    <div class="feature-inner flip">
+      <div>
+        <div class="feature-label reveal">Digital Presence</div>
+        <h3 class="feature-heading reveal d1">The brand system extended across every digital channel</h3>
+        <p class="feature-body reveal d2" style="margin-bottom:20px;">From website to social to leasing materials, the identity was designed to be immediately recognizable across every screen. Each template was built for a non-designer to use without breaking the system.</p>
+        <ul class="feature-body reveal d2" style="list-style:none;display:flex;flex-direction:column;gap:14px;">
+          <li style="display:flex;gap:12px;"><span style="color:var(--red);flex-shrink:0;">→</span>Website and digital brand presence</li>
+          <li style="display:flex;gap:12px;"><span style="color:var(--red);flex-shrink:0;">→</span>Social media templates and content guidelines</li>
+          <li style="display:flex;gap:12px;"><span style="color:var(--red);flex-shrink:0;">→</span>Leasing and partner communication assets</li>
+          <li style="display:flex;gap:12px;"><span style="color:var(--red);flex-shrink:0;">→</span>Grant and funding presentation materials</li>
+        </ul>
+      </div>
+      <div class="reveal d1">
+        <div class="slideshow" id="digital-slideshow">
+          <div class="slideshow-track">
+            <img src="https://www.dsgnlogic.com/wp-content/uploads/2023/10/iScreen-Shoter-Google-Chrome-251105081136.jpg"
+              alt="Pittsburgh Yards digital brand" class="slide active" loading="lazy" />
+            <img src="https://www.dsgnlogic.com/wp-content/uploads/2023/10/iScreen-Shoter-Google-Chrome-251105081328.jpg"
+              alt="Pittsburgh Yards brand application" class="slide" loading="lazy" />
+            <img src="https://www.dsgnlogic.com/wp-content/uploads/2023/10/iScreen-Shoter-Google-Chrome-251105081505.jpg"
+              alt="Pittsburgh Yards brand system" class="slide" loading="lazy" />
+          </div>
+          <div class="slideshow-controls">
+            <button class="slide-btn prev" aria-label="Previous">←</button>
+            <div class="slide-dots">
+              <span class="slide-dot active"></span>
+              <span class="slide-dot"></span>
+              <span class="slide-dot"></span>
+            </div>
+            <button class="slide-btn next" aria-label="Next">→</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Feature: Environmental ── -->
+  <div class="feature-block">
+    <div class="feature-inner">
+      <div>
+        <div class="feature-label reveal">Environmental Design</div>
+        <h3 class="feature-heading reveal d1">Signage, spatial storytelling, and place-making at scale</h3>
+        <p class="feature-body reveal d2">The identity was designed to live in space — not just on screens. Signage, environmental graphics, and wayfinding were developed in parallel with the digital presence, ensuring the brand told the same story whether someone was walking through the Nia Building or reading a grant proposal.</p>
+        <p class="feature-body reveal d2" style="margin-top:16px;">Physical spaces carry weight no digital touchpoint can replicate. For a community-centered development, getting environmental design right was critical to whether residents felt the space was built for them.</p>
+      </div>
+      <div class="reveal d1">
+        <img src="https://www.dsgnlogic.com/wp-content/uploads/2023/10/iScreen-Shoter-Google-Chrome-251105083910.jpg"
+          alt="Pittsburgh Yards brand detail" class="feature-img" loading="lazy" />
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Video ── -->
+  <div style="padding:0 48px 80px;border-bottom:1px solid var(--border);">
+    <div style="max-width:1200px;margin:0 auto;">
+      <div class="reveal" style="border-radius:32px;overflow:hidden;border:1px solid var(--border);aspect-ratio:16/9;position:relative;background:#000;">
+        <a href="https://www.youtube.com/watch?v=MKJvUtIayo0"
+           target="_blank" rel="noopener noreferrer"
+           class="yt-thumb"
+           aria-label="Watch Pittsburgh Yards on YouTube">
+          <img src="https://i.ytimg.com/vi/MKJvUtIayo0/maxresdefault.jpg"
+               alt="Pittsburgh Yards — watch on YouTube" />
+          <div class="yt-play-btn">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+              <path d="M8 5l13 7-13 7V5z" fill="#fff"/>
+            </svg>
+          </div>
+          <span class="yt-watch-label">Watch on YouTube ↗</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Results ── -->
+  <section class="cs-section neutral">
+    <div class="cs-section-inner">
+      <div class="cs-section-layout">
+        <div class="reveal">
+          <div class="cs-section-label">Impact</div>
+          <h2 class="cs-section-heading">A brand that activated a vision, not just represented it</h2>
+        </div>
+        <div class="reveal d1">
+          <div class="results-grid">
+            <div class="result-item">
+              <div class="result-stat highlight">$26M+</div>
+              <div class="result-label">Phase I development supported</div>
+            </div>
+            <div class="result-item">
+              <div class="result-stat blue">101</div>
+              <div class="result-label">Small business workspaces leased</div>
+            </div>
+            <div class="result-item">
+              <div class="result-stat highlight">1,000+</div>
+              <div class="result-label">Long-term jobs projected</div>
+            </div>
+            <div class="result-item">
+              <div class="result-stat blue">EDA + NMTC</div>
+              <div class="result-label">Federal grants secured in part through brand credibility</div>
+            </div>
+          </div>
+          <p style="font-size:13px;color:var(--muted);margin-top:20px;line-height:1.6;">The brand system served as connective tissue — linking social purpose, economic strategy, stakeholder coordination, and community identity into a single coherent narrative that investors, residents, and city officials could all see themselves in.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Next Case ── -->
+  <section id="cs-next">
+    <div>
+      <div class="next-label">Next Case Study</div>
+      <div class="next-title">Designing the conditions for<br/>global publishing at scale</div>
+    </div>
+    <a href="microsoft-sharepoint.html" class="next-arrow-btn">↗</a>
+  </section>
+
+  <!-- ── Footer ── -->
+  <footer>
+    <div class="footer-inner">
+      <a href="index.html" class="footer-name">Michael Edward</a>
+      <span class="footer-copy">© 2026 DSGN Logic. All rights reserved.</span>
+      <a href="#cs-hero" class="footer-top">Back to top ↑</a>
+    </div>
+  </footer>
+
+  <script>
+    const cur = document.getElementById('cur');
+    document.addEventListener('mousemove', e => {
+      cur.style.left = e.clientX + 'px';
+      cur.style.top  = e.clientY + 'px';
+    });
+
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 60);
+    }, { passive: true });
+
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+    }, { threshold: 0.07, rootMargin: '0px 0px -24px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+    // ── Page transition ──
+    const pt = document.getElementById('page-transition');
+    requestAnimationFrame(() => setTimeout(() => pt.classList.add('out'), 40));
+    document.querySelectorAll('a[href]').forEach(link => {
+      const href = link.getAttribute('href');
+      if (!href || href.startsWith('#') || href.startsWith('http') || href.startsWith('mailto')) return;
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        pt.classList.remove('out');
+        setTimeout(() => { window.location.href = href; }, 650);
+      });
+    });
+
+    // ── Hero word split ──
+    (function() {
+      const title = document.querySelector('.cs-title');
+      if (!title) return;
+      const words = title.textContent.trim().split(' ');
+      title.innerHTML = words.map((w, i) =>
+        `<span class="split-wrap"><span class="split-inner" style="transition-delay:${0.55 + i * 0.07}s">${w}</span></span>`
+      ).join(' ');
+      setTimeout(() => title.querySelectorAll('.split-inner').forEach(el => el.classList.add('in')), 100);
+    })();
+
+    // ── Count-up stats ──
+    (function() {
+      const obs = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) return;
+          obs.unobserve(entry.target);
+          const el  = entry.target;
+          const raw = el.textContent.trim();
+          const num = parseFloat(raw.replace(/[^0-9.]/g, ''));
+          if (isNaN(num)) return;
+          const sfx = raw.replace(/[0-9.]/g, '');
+          const t0  = performance.now();
+          const dur = 1600;
+          (function tick(now) {
+            const p = Math.min((now - t0) / dur, 1);
+            const e = 1 - Math.pow(1 - p, 3);
+            el.textContent = (num >= 1000 ? Math.round(e * num).toLocaleString() : Math.round(e * num)) + sfx;
+            if (p < 1) requestAnimationFrame(tick);
+          })(t0);
+        });
+      }, { threshold: 0.6 });
+      document.querySelectorAll('.outcome-stat em').forEach(el => obs.observe(el));
+    })();
+
+    // ── Slideshow ──
+    document.querySelectorAll('.slideshow').forEach(ss => {
+      const slides  = ss.querySelectorAll('.slide');
+      const dots    = ss.querySelectorAll('.slide-dot');
+      let current   = 0;
+      function goTo(n) {
+        slides[current].classList.remove('active');
+        dots[current].classList.remove('active');
+        current = (n + slides.length) % slides.length;
+        slides[current].classList.add('active');
+        dots[current].classList.add('active');
+      }
+      ss.querySelector('.prev').addEventListener('click', () => goTo(current - 1));
+      ss.querySelector('.next').addEventListener('click', () => goTo(current + 1));
+      dots.forEach((dot, i) => dot.addEventListener('click', () => goTo(i)));
+    });
+
+    // ── Magnetic buttons ──
+    document.querySelectorAll('.nav-cta, .next-arrow-btn, .slide-btn').forEach(btn => {
+      btn.addEventListener('mousemove', e => {
+        const r  = btn.getBoundingClientRect();
+        const dx = ((e.clientX - (r.left + r.width  / 2)) / r.width)  * 14;
+        const dy = ((e.clientY - (r.top  + r.height / 2)) / r.height) * 9;
+        btn.style.transition = 'transform 0.15s ease, background 0.2s, border-color 0.2s';
+        btn.style.transform  = `translate(${dx}px, ${dy}px)`;
+      });
+      btn.addEventListener('mouseleave', () => {
+        btn.style.transition = 'transform 0.5s cubic-bezier(0.16,1,0.3,1), background 0.2s, border-color 0.2s';
+        btn.style.transform  = '';
+      });
+    });
+  </script>
+
+</body>
+</html>
