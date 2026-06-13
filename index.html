@@ -201,9 +201,14 @@
 
     /* ── Hero ───────────────────────────────────────── */
     #hero {
+      display: flex;
+      flex-direction: column;
+    }
+    .hero-grid {
       display: grid;
       grid-template-columns: 2fr 1fr;
       grid-template-rows: 1fr;
+      min-height: 100vh;
       background: linear-gradient(to right, var(--bg) 66.67%, rgba(4,62,92,0.03) 66.67%);
     }
 
@@ -360,7 +365,7 @@
     .btn-ghost:hover { border-color: var(--ink); }
 
     /* ── Work ───────────────────────────────────────── */
-    #work {
+    .work-block {
       padding: var(--f-9xl) var(--f-5xl);
       position: relative;
     }
@@ -1238,7 +1243,7 @@
 
     /* ── Responsive ──────────────────────────────────── */
     @media (max-width: 1024px) {
-      #hero { grid-template-columns: 1fr; }
+      .hero-grid { grid-template-columns: 1fr; }
       .hero-left { border-right: none; border-bottom: 1px solid var(--border); padding: 60px 32px 60px; }
       .hero-right { padding: 60px 32px 80px; }
       .about-inner { grid-template-columns: 1fr; gap: 60px; padding: 100px 32px; }
@@ -1252,7 +1257,7 @@
       .book-right { min-height: 320px; }
       .contact-row { flex-direction: column; }
       #nav { padding: 24px 32px; }
-      #work { padding: 100px 32px; }
+      .work-block { padding: 100px 32px; }
       .philosophy-block { padding: 100px 32px; }
       #services, #quotes { padding: 100px 32px; }
 
@@ -1285,41 +1290,102 @@
 
   <!-- ── Hero ─────────────────────────────────────── -->
   <section id="hero" aria-label="Home">
-    <div class="hero-left">
-      <div class="hero-label">Product Designer · AI Strategist · Author</div>
-      <h1 class="hero-title">We design for</h1>
-      <div class="word-rotator" aria-live="polite">
-        <span class="rot-word active">empathy.</span>
-        <span class="rot-word">transformation.</span>
-        <span class="rot-word">experience.</span>
-        <span class="rot-word">strategy.</span>
+    <div class="hero-grid">
+      <div class="hero-left">
+        <div class="hero-label">Product Designer · AI Strategist · Author</div>
+        <h1 class="hero-title">We design for</h1>
+        <div class="word-rotator" aria-live="polite">
+          <span class="rot-word active">empathy.</span>
+          <span class="rot-word">transformation.</span>
+          <span class="rot-word">experience.</span>
+          <span class="rot-word">strategy.</span>
+        </div>
+      </div>
+
+      <div class="hero-right">
+        <div class="hero-creds">
+          <div class="cred-row">
+            <span class="cred-label">Experience</span>
+            <span class="cred-value">20+ years</span>
+          </div>
+          <div class="cred-row">
+            <span class="cred-label">Current</span>
+            <span class="cred-value">Microsoft</span>
+          </div>
+          <div class="cred-row">
+            <span class="cred-label">Certification</span>
+            <span class="cred-value">MIT · AI Design</span>
+          </div>
+          <div class="cred-row">
+            <span class="cred-label">Published</span>
+            <span class="cred-value">Feel First</span>
+          </div>
+        </div>
+
+        <p class="hero-bio">
+          I'm Michael Edward, a product designer, AI strategist, author, and educator. For over a decade I've designed products that bridge human experience and emerging technology. Today I help organizations stop building AI that users tolerate, and start building AI that people trust, feel, and benefit from. My methodology, the <em>Feel First Framework™</em>, is rooted in my published book and applied across enterprise consulting, workshops, and speaking engagements.
+        </p>
+
       </div>
     </div>
 
-    <div class="hero-right">
-      <div class="hero-creds">
-        <div class="cred-row">
-          <span class="cred-label">Experience</span>
-          <span class="cred-value">20+ years</span>
-        </div>
-        <div class="cred-row">
-          <span class="cred-label">Current</span>
-          <span class="cred-value">Microsoft</span>
-        </div>
-        <div class="cred-row">
-          <span class="cred-label">Certification</span>
-          <span class="cred-value">MIT · AI Design</span>
-        </div>
-        <div class="cred-row">
-          <span class="cred-label">Published</span>
-          <span class="cred-value">Feel First</span>
-        </div>
+    <!-- ── Work ──────────────────────────────────── -->
+    <div class="work-block" id="work">
+
+      <!-- Cursor-following preview -->
+      <div id="work-preview">
+        <div class="preview-bg" id="preview-bg"></div>
+        <div class="pbg-grid"></div>
+        <div class="pbg-glyph" id="preview-glyph"></div>
+        <span class="preview-label" id="preview-label"></span>
       </div>
 
-      <p class="hero-bio">
-        I'm Michael Edward, a product designer, AI strategist, author, and educator. For over a decade I've designed products that bridge human experience and emerging technology. Today I help organizations stop building AI that users tolerate, and start building AI that people trust, feel, and benefit from. My methodology, the <em>Feel First Framework™</em>, is rooted in my published book and applied across enterprise consulting, workshops, and speaking engagements.
-      </p>
+      <div class="work-header reveal">
+        <h2 class="work-heading">Selected<br/>Work</h2>
+        <span class="work-count">04 Projects</span>
+      </div>
 
+      <div class="case-list">
+        <a href="microsoft-sharepoint.html" class="case-row reveal"
+             data-bg="pbg-msft" data-glyph="SP" data-label="Microsoft · Enterprise" style="text-decoration:none;color:inherit;">
+          <span class="case-num">01</span>
+          <div class="case-info">
+            <h3 class="case-title">Designing the conditions for global publishing at scale</h3>
+            <span class="case-tags">SharePoint · AI Copilot · Content Infrastructure</span>
+          </div>
+          <div class="case-meta">
+            <span class="case-year">2026</span>
+            <div class="case-arrow">↗</div>
+          </div>
+        </a>
+
+        <div class="case-row reveal d1"
+             data-bg="pbg-bespeak" data-glyph="Be" data-label="Civic Tech · Community">
+          <span class="case-num">02</span>
+          <div class="case-info">
+            <h3 class="case-title">Reimagining Community Planning Through Human-Centered Technology</h3>
+            <span class="case-tags">Bespeak · Participatory Design · UX Strategy</span>
+          </div>
+          <div class="case-meta">
+            <span class="case-year">2026</span>
+            <span class="case-soon">Coming Soon</span>
+          </div>
+        </div>
+
+        <a href="pittsburgh-yards.html" class="case-row reveal d2"
+             data-bg="pbg-pgh" data-glyph="PY" data-label="Brand · Systems Design" style="text-decoration:none;color:inherit;">
+          <span class="case-num">03</span>
+          <div class="case-info">
+            <h3 class="case-title">A Brand Framework Built for Partners, Residents, and Scale</h3>
+            <span class="case-tags">Pittsburgh Yards · Identity System · Design Strategy</span>
+          </div>
+          <div class="case-meta">
+            <span class="case-year">2022</span>
+            <div class="case-arrow">↗</div>
+          </div>
+        </a>
+
+      </div>
     </div>
   </section>
 
@@ -1335,65 +1401,6 @@
       <div class="book-cover" style="background:none;padding:0;overflow:hidden;">
         <img src="images/Feel First Book.jpg" alt="Feel First by Michael Edward" style="width:100%;height:100%;object-fit:cover;display:block;border-radius:2px 8px 8px 2px;" />
       </div>
-    </div>
-  </section>
-
-  <!-- ── Work ──────────────────────────────────────── -->
-  <section id="work" aria-label="Work">
-
-    <!-- Cursor-following preview -->
-    <div id="work-preview">
-      <div class="preview-bg" id="preview-bg"></div>
-      <div class="pbg-grid"></div>
-      <div class="pbg-glyph" id="preview-glyph"></div>
-      <span class="preview-label" id="preview-label"></span>
-    </div>
-
-    <div class="work-header reveal">
-      <h2 class="work-heading">Selected<br/>Work</h2>
-      <span class="work-count">04 Projects</span>
-    </div>
-
-    <div class="case-list">
-      <a href="microsoft-sharepoint.html" class="case-row reveal"
-           data-bg="pbg-msft" data-glyph="SP" data-label="Microsoft · Enterprise" style="text-decoration:none;color:inherit;">
-        <span class="case-num">01</span>
-        <div class="case-info">
-          <h3 class="case-title">Designing the conditions for global publishing at scale</h3>
-          <span class="case-tags">SharePoint · AI Copilot · Content Infrastructure</span>
-        </div>
-        <div class="case-meta">
-          <span class="case-year">2026</span>
-          <div class="case-arrow">↗</div>
-        </div>
-      </a>
-
-      <div class="case-row reveal d1"
-           data-bg="pbg-bespeak" data-glyph="Be" data-label="Civic Tech · Community">
-        <span class="case-num">02</span>
-        <div class="case-info">
-          <h3 class="case-title">Reimagining Community Planning Through Human-Centered Technology</h3>
-          <span class="case-tags">Bespeak · Participatory Design · UX Strategy</span>
-        </div>
-        <div class="case-meta">
-          <span class="case-year">2026</span>
-          <span class="case-soon">Coming Soon</span>
-        </div>
-      </div>
-
-      <a href="pittsburgh-yards.html" class="case-row reveal d2"
-           data-bg="pbg-pgh" data-glyph="PY" data-label="Brand · Systems Design" style="text-decoration:none;color:inherit;">
-        <span class="case-num">03</span>
-        <div class="case-info">
-          <h3 class="case-title">A Brand Framework Built for Partners, Residents, and Scale</h3>
-          <span class="case-tags">Pittsburgh Yards · Identity System · Design Strategy</span>
-        </div>
-        <div class="case-meta">
-          <span class="case-year">2022</span>
-          <div class="case-arrow">↗</div>
-        </div>
-      </a>
-
     </div>
   </section>
 
@@ -1615,7 +1622,7 @@
     const sectionNav  = document.getElementById('section-nav');
 
     const SECTION_NAMES = {
-      hero: 'Home', book: 'Book', work: 'Work',
+      hero: 'Home', book: 'Book',
       about: 'DSGN Logic',
       services: 'Services', quotes: 'Testimonials'
     };
