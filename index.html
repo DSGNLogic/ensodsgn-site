@@ -1661,6 +1661,16 @@
     storeLi.appendChild(storeA);
     sectionNav.appendChild(storeLi);
 
+    // Add Medium link
+    const mediumLi = document.createElement('li');
+    const mediumA  = document.createElement('a');
+    mediumA.href = 'https://medium.com/@dsgnlogic';
+    mediumA.textContent = 'Medium';
+    mediumA.target = '_blank';
+    mediumA.rel = 'noopener noreferrer';
+    mediumLi.appendChild(mediumA);
+    sectionNav.appendChild(mediumLi);
+
     // Also handle the logo link scrolling back to hero
     document.querySelector('.nav-name').addEventListener('click', e => {
       e.preventDefault();
