@@ -1389,20 +1389,6 @@
     </div>
   </section>
 
-  <!-- ── Book ───────────────────────────────────────── -->
-  <section id="book" aria-label="Book">
-    <div class="book-left">
-      <div class="book-eyebrow reveal">Latest Book</div>
-      <h2 class="book-title reveal d1">Feel<br/><span>First</span></h2>
-      <p class="book-desc reveal d2">A published exploration of empathy and emotion in the creative process and the intellectual foundation for the Feel First Framework™. For designers navigating the age of AI.</p>
-      <a href="https://www.barnesandnoble.com/w/feel-first-michael-edward/1149390303?ean=9798279646371" target="_blank" rel="noopener noreferrer" class="btn book-cta reveal d3" style="margin-top:32px;">Get the Book →</a>
-    </div>
-    <div class="book-right">
-      <div class="book-cover" style="background:none;padding:0;overflow:hidden;">
-        <img src="images/Feel First Book.jpg" alt="Feel First by Michael Edward" style="width:100%;height:100%;object-fit:cover;display:block;border-radius:2px 8px 8px 2px;" />
-      </div>
-    </div>
-  </section>
 
   <!-- ── Services ──────────────────────────────────── -->
   <section id="services" aria-label="Services">
@@ -1622,7 +1608,7 @@
     const sectionNav  = document.getElementById('section-nav');
 
     const SECTION_NAMES = {
-      hero: 'Home', book: 'Book',
+      hero: 'Home',
       about: 'DSGN Logic',
       services: 'Services', quotes: 'Testimonials'
     };
@@ -1667,7 +1653,7 @@
     const storeLi = document.createElement('li');
     const storeA  = document.createElement('a');
     storeA.href = 'store.html';
-    storeA.textContent = 'ENSŌ Learn';
+    storeA.textContent = 'ENSŌ Store';
     storeLi.appendChild(storeA);
     sectionNav.appendChild(storeLi);
 
