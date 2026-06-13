@@ -548,7 +548,7 @@
     }
 
     /* ── Philosophy ─────────────────────────────────── */
-    #philosophy {
+    .philosophy-block {
       padding: var(--f-10xl) var(--f-5xl);
       background: var(--ink);
       color: var(--bg);
@@ -615,11 +615,15 @@
 
     /* ── About ──────────────────────────────────────── */
     #about {
-      padding: var(--f-9xl) var(--f-5xl);
+      display: flex;
+      flex-direction: column;
+    }
+    .about-inner {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: var(--f-8xl);
       align-items: center;
+      padding: var(--f-9xl) var(--f-5xl);
     }
 
     .about-left {}
@@ -1237,7 +1241,7 @@
       #hero { grid-template-columns: 1fr; }
       .hero-left { border-right: none; border-bottom: 1px solid var(--border); padding: 60px 32px 60px; }
       .hero-right { padding: 60px 32px 80px; }
-      #about { grid-template-columns: 1fr; gap: 60px; }
+      .about-inner { grid-template-columns: 1fr; gap: 60px; padding: 100px 32px; }
       .services-header { grid-template-columns: 1fr; gap: 24px; }
       .service-row { grid-template-columns: 1fr; gap: 12px; }
       .svc-detail { text-align: left; }
@@ -1249,8 +1253,8 @@
       .contact-row { flex-direction: column; }
       #nav { padding: 24px 32px; }
       #work { padding: 100px 32px; }
-      #philosophy { padding: 100px 32px; }
-      #about, #services, #quotes { padding: 100px 32px; }
+      .philosophy-block { padding: 100px 32px; }
+      #services, #quotes { padding: 100px 32px; }
 
       .contact-overlay { padding: 16px; }
       .contact-dialog { padding: 28px; }
@@ -1393,38 +1397,6 @@
     </div>
   </section>
 
-  <!-- ── Philosophy ────────────────────────────────── -->
-  <section id="philosophy" aria-label="Philosophy">
-    <div class="philosophy-eyebrow reveal">My Design Philosophy</div>
-    <div class="philosophy-quote reveal d1">
-      Intelligence should <em>amplify</em> humanity  <br/>not replace it.
-    </div>
-
-    <div class="principles-grid reveal d2">
-      <div class="principle">
-        <div class="p-num">01</div>
-        <div class="p-title">Feel First</div>
-        <div class="p-desc">Anchor every decision in human emotion and lived experience before reaching for a solution. Feeling precedes thinking.</div>
-      </div>
-      <div class="principle">
-        <div class="p-num">02</div>
-        <div class="p-title">Think in Systems</div>
-        <div class="p-desc">Design the conditions not just the artifacts. Every touchpoint is part of a larger ecosystem. See the whole.</div>
-      </div>
-      <div class="principle">
-        <div class="p-num">03</div>
-        <div class="p-title">Lead with Clarity</div>
-        <div class="p-desc">Complexity is not the goal. Translate ambiguity into decisions that people can understand, trust, and act on.</div>
-      </div>
-      <div class="principle">
-        <div class="p-num">04</div>
-        <div class="p-title">Build Trust</div>
-        <div class="p-desc">Trustworthy AI is designed, not assumed. Transparency, consistency, and empathy are the architecture of trust.</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── About ──────────────────────────────────────── -->
   <!-- ── Services ──────────────────────────────────── -->
   <section id="services" aria-label="Services">
     <div class="services-header">
@@ -1468,22 +1440,53 @@
     </div>
   </section>
 
-  <section id="about" aria-label="About">
-    <div class="about-left reveal">
-      <div class="about-eyebrow">About</div>
-      <h2 class="about-heading">Twenty years<br/>of asking one<br/>question.</h2>
-      <p class="about-body">
-        How should this make people feel?<br/><br/>
-        That question has guided every project I've taken on from enterprise software at Microsoft
-        to civic technology for underserved communities to a published book on design and emotion.
-        I don't believe technology is inherently good or bad. I believe it becomes what we design it to be.
-        My job is to make sure that something human survives the translation into code.
-      </p>
-      <a href="#contact" class="btn btn-ink">Work Together →</a>
+  <!-- ── DSGN Logic (Philosophy + About) ─────────────── -->
+  <section id="about" aria-label="DSGN Logic">
+    <div class="philosophy-block">
+      <div class="philosophy-eyebrow reveal">My Design Philosophy</div>
+      <div class="philosophy-quote reveal d1">
+        Intelligence should <em>amplify</em> humanity  <br/>not replace it.
+      </div>
+      <div class="principles-grid reveal d2">
+        <div class="principle">
+          <div class="p-num">01</div>
+          <div class="p-title">Feel First</div>
+          <div class="p-desc">Anchor every decision in human emotion and lived experience before reaching for a solution. Feeling precedes thinking.</div>
+        </div>
+        <div class="principle">
+          <div class="p-num">02</div>
+          <div class="p-title">Think in Systems</div>
+          <div class="p-desc">Design the conditions not just the artifacts. Every touchpoint is part of a larger ecosystem. See the whole.</div>
+        </div>
+        <div class="principle">
+          <div class="p-num">03</div>
+          <div class="p-title">Lead with Clarity</div>
+          <div class="p-desc">Complexity is not the goal. Translate ambiguity into decisions that people can understand, trust, and act on.</div>
+        </div>
+        <div class="principle">
+          <div class="p-num">04</div>
+          <div class="p-title">Build Trust</div>
+          <div class="p-desc">Trustworthy AI is designed, not assumed. Transparency, consistency, and empathy are the architecture of trust.</div>
+        </div>
+      </div>
     </div>
-    <div class="about-right reveal d1">
-      <div class="about-photo-wrap">
-        <img src="images/Michael Edward.jpg" alt="Michael Edward" class="about-photo" />
+    <div class="about-inner">
+      <div class="about-left reveal">
+        <div class="about-eyebrow">About</div>
+        <h2 class="about-heading">Twenty years<br/>of asking one<br/>question.</h2>
+        <p class="about-body">
+          How should this make people feel?<br/><br/>
+          That question has guided every project I've taken on from enterprise software at Microsoft
+          to civic technology for underserved communities to a published book on design and emotion.
+          I don't believe technology is inherently good or bad. I believe it becomes what we design it to be.
+          My job is to make sure that something human survives the translation into code.
+        </p>
+        <a href="#contact" class="btn btn-ink">Work Together →</a>
+      </div>
+      <div class="about-right reveal d1">
+        <div class="about-photo-wrap">
+          <img src="images/Michael Edward.jpg" alt="Michael Edward" class="about-photo" />
+        </div>
       </div>
     </div>
   </section>
@@ -1613,7 +1616,7 @@
 
     const SECTION_NAMES = {
       hero: 'Home', book: 'Book', work: 'Work',
-      philosophy: 'Philosophy', about: 'DSGN Logic',
+      about: 'DSGN Logic',
       services: 'Services', quotes: 'Testimonials'
     };
 
