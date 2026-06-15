@@ -4,6 +4,16 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ENSŌ DSGN</title>
+  <meta name="description" content="ENSŌ DSGN offers resources, tools, coaching, and community for designers, entrepreneurs, and creative thinkers." />
+  <meta property="og:title" content="ENSŌ DSGN" />
+  <meta property="og:description" content="ENSŌ DSGN offers resources, tools, coaching, and community for designers, entrepreneurs, and creative thinkers." />
+  <meta property="og:url" content="https://dsgnlogic.co/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://dsgnlogic.co/images/Michael%20Edward.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="ENSŌ DSGN" />
+  <meta name="twitter:description" content="ENSŌ DSGN offers resources, tools, coaching, and community for designers, entrepreneurs, and creative thinkers." />
+  <meta name="twitter:image" content="https://dsgnlogic.co/images/Michael%20Edward.jpg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
@@ -1324,7 +1334,7 @@
 
       <div class="work-header reveal">
         <h2 class="work-heading">Selected<br/>Work</h2>
-        <span class="work-count">04 Projects</span>
+        <span class="work-count">03 Projects</span>
       </div>
 
       <div class="case-list">
@@ -1557,9 +1567,7 @@
       </div>
 
       <div class="contact-dialog-socials" aria-label="Social links">
-        <a href="#" class="social-link">LinkedIn <span class="social-link-arrow" aria-hidden="true">↗</span></a>
-        <a href="#" class="social-link">Medium <span class="social-link-arrow" aria-hidden="true">↗</span></a>
-        <a href="#" class="social-link">X / Twitter <span class="social-link-arrow" aria-hidden="true">↗</span></a>
+        <a href="https://medium.com/@dsgnlogic" target="_blank" rel="noopener noreferrer" class="social-link">Medium <span class="social-link-arrow" aria-hidden="true">↗</span></a>
       </div>
     </div>
   </div>
@@ -1777,6 +1785,9 @@
     document.querySelectorAll('a[href="#contact"]').forEach(a => {
       a.addEventListener('click', e => { e.preventDefault(); openDialog(); });
     });
+
+    // Open dialog when arriving from a subpage via index.html#contact
+    if (window.location.hash === '#contact') openDialog();
 
     // ── Contact form submission ────────────────────────
     contactForm.addEventListener('submit', async e => {
