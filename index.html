@@ -1326,14 +1326,6 @@
       text-transform: uppercase;
       color: var(--ink);
     }
-    .post-card-skeleton {
-      background: var(--faint);
-      border-radius: 8px;
-      height: 180px;
-      animation: sk 1.4s ease-in-out infinite;
-    }
-    @keyframes sk { 0%,100% { opacity:.4; } 50% { opacity:1; } }
-
     /* ── Newsletter ──────────────────────────────────── */
     .newsletter-block {
       display: grid;
@@ -1729,9 +1721,24 @@
     <h2 class="thinking-heading reveal d1">From the<br/>blog</h2>
 
     <div class="post-grid reveal d2" id="post-grid">
-      <div class="post-card"><div class="post-card-skeleton"></div></div>
-      <div class="post-card"><div class="post-card-skeleton"></div></div>
-      <div class="post-card"><div class="post-card-skeleton"></div></div>
+      <a href="https://medium.com/design-bootcamp/what-my-mit-ai-focused-certification-taught-me-ee2ba1d934cf" target="_blank" rel="noopener noreferrer" class="post-card">
+        <div class="post-card-tag">Medium · 2025</div>
+        <div class="post-card-title">What my MIT AI focused certification taught me</div>
+        <div class="post-card-excerpt">A reflection on learning, unlearning, and what it means to design responsibly in the age of artificial intelligence.</div>
+        <span class="post-card-cta">Read →</span>
+      </a>
+      <a href="https://medium.com/design-bootcamp/designing-for-emotion-in-the-age-of-ai-bd57be4abba1" target="_blank" rel="noopener noreferrer" class="post-card">
+        <div class="post-card-tag">Medium · 2025</div>
+        <div class="post-card-title">Designing for Emotion in the Age of AI</div>
+        <div class="post-card-excerpt">It feels like the world is unraveling in real time. The headlines are loud. The timelines are relentless. And AI is threading itself into everything.</div>
+        <span class="post-card-cta">Read →</span>
+      </a>
+      <a href="https://medium.com/design-bootcamp/the-creative-burnout-epidemic-why-designers-are-exhausted-and-what-we-can-do-about-it-c4a3e3cf300c" target="_blank" rel="noopener noreferrer" class="post-card">
+        <div class="post-card-tag">Medium · 2025</div>
+        <div class="post-card-title">The Creative Burnout Epidemic: Why Designers Are Exhausted</div>
+        <div class="post-card-excerpt">Let's talk about something many of us have felt — and honestly are feeling right now — but haven't had the space to say out loud.</div>
+        <span class="post-card-cta">Read →</span>
+      </a>
     </div>
 
     <div class="newsletter-block reveal d3">
@@ -2140,27 +2147,6 @@
       setTimeout(() => {
         line.querySelectorAll('.split-inner').forEach(el => el.classList.add('in'));
       }, 100);
-    })();
-
-    // ── Medium posts ───────────────────────────────────
-    (function() {
-      const grid = document.getElementById('post-grid');
-      fetch('https://api.rss2json.com/v1/api.json?rss_url=https://medium.com/feed/@dsgnlogic&count=3')
-        .then(r => r.json())
-        .then(data => {
-          if (!data.items || !data.items.length) { grid.style.display = 'none'; return; }
-          grid.innerHTML = data.items.map(post => {
-            const excerpt = post.description.replace(/<[^>]+>/g, '').slice(0, 130) + '…';
-            const year = new Date(post.pubDate).getFullYear();
-            return `<a href="${post.link}" target="_blank" rel="noopener noreferrer" class="post-card">
-              <div class="post-card-tag">Medium · ${year}</div>
-              <div class="post-card-title">${post.title}</div>
-              <div class="post-card-excerpt">${excerpt}</div>
-              <span class="post-card-cta">Read →</span>
-            </a>`;
-          }).join('');
-        })
-        .catch(() => { grid.style.display = 'none'; });
     })();
 
     // ── Newsletter form ─────────────────────────────────
