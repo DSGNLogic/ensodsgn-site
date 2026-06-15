@@ -709,6 +709,21 @@
       line-height: 1.9;
       margin-bottom: var(--f-5xl);
     }
+    .about-cta-row {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      flex-wrap: wrap;
+    }
+    .about-secondary-cta {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: 0.02em;
+      transition: color .2s;
+    }
+    .about-secondary-cta:hover { color: var(--ink); }
 
     .about-right {}
 
@@ -1606,7 +1621,10 @@
           I don't believe technology is inherently good or bad. I believe it becomes what we design it to be.
           My job is to make sure that something human survives the translation into code.
         </p>
-        <a href="#contact" class="btn btn-ink">Work Together →</a>
+        <div class="about-cta-row">
+          <a href="#contact" class="btn btn-ink">Work Together →</a>
+          <a href="#thinking" class="about-secondary-cta">Read my thinking →</a>
+        </div>
       </div>
       <div class="about-right reveal d1">
         <div class="about-photo-wrap">
